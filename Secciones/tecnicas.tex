@@ -1,0 +1,108 @@
+\section{Técnicas para la Evaluación de Modelos Predictivos}
+
+En este apartado se realiza una revisión de los principales métodos
+
+
+Los modelos predictivos en los que se centra esta sección son modelos de clasificación en los que se tiene un número discreto de posibles valores para la clase objetivo, por ejemplo, un conjunto de datos con registros de emails, con una clase que marca cada registro como spam o no spam. El modelo predictivo en este caso está entrenado para predecir un valor u otro de esta clase en función del resto de atributos. En esta sección se ofrece un análisis de las diferentes técnicas tanto analíticas como gráficas para la evaluación de modelos predictivos.
+
+\subsection{Matriz de confusión}
+
+La matriz de confusión es una herramienta que se suele aplicar en las primeras fases del análisis, permite organizar los indicadores de rendimiento obtenidos para un modelo predictivo, en general, ofrece un recuento de los registros en base a la clase real de cada registro y a la predicción que realiza el modelo. La matriz de confusión se define como una matriz cuadrada de $NxN$ elementos donde $N$ es el numero de clases presentes en el modelo, cada fila de la matriz de confusión define la clase real del registro y cada columna define la clase predicha por el modelo o viceversa.
+
+\bigbreak
+
+En la matriz de confusión se definen cuatro indicadores, estos indicadores ofrecen una visión general del rendimiento del modelo y son la base para el calculo de algunas métricas mas avanzadas que se tratan en secciones posteriores de este documento. Los indicadores definidos en la matriz de confusión son:
+
+\begin{itemize}
+    \item Verdadero Positivo: Registros de clase real positiva y en los que la predicción se hace correctamente.
+    \item Verdadero Negativo: Registros de clase real negativa y en los que la predicción se hace correctamente.
+    \item Falso Negativo: Registros de clase real positiva y en los que la predicción se hace incorrectamente.
+    \item Falso Positivo: Registros de clase real negativa y en los que la predicción se hace incorrectamente.
+\end{itemize}
+
+\pagebreak
+
+La matriz de confusión se define de forma general para modelos de clasificación multi-etiqueta, sin embargo, a la hora de obtener los indicadores de rendimiento para modelos de clasificación con mas de dos clases tenemos que definir $N$ matrices una por cada clase del modelo, en cada matriz se define positiva una de las clases y se agrupan como negativas el resto, de esta forma, el estudio que se realiza a partir de las diferentes sub-matrices ya no es un estudio global, sino que es especifico para cada clase concreta.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}[t]{ccc}
+                 & Positivo*          & Negativo*          \\\hline
+        Positivo & Verdadero Positivo & Falso Negativo     \\\hline
+        Negativo & Falso Positivo     & Verdadero Negativo \\\hline
+    \end{tabular}
+
+    \caption{Matriz de confusión 2x2.}
+    \label{tab:1}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SECCION METODOS ESTADISTICOS
+
+\subsection{Métodos estadísticos}
+
+En esta sección se introducen Se han seleccionado catorce métodos que pretenden por un lado cubrir los más básicos que sirve como apoyo para el calculo y por otro presentar métodos más avanzados.
+
+En la actualidad se han desarrollado muchos estudios que presentan métodos estadísticos que permiten evaluar la calidad de un modelos predictivo, en esta sección se hace una revisión de los más destacados. Se han seleccionado catorce métodos que pretenden por un lado cubrir los más básicos que sirve como apoyo para el calculo y por otro presentar métodos más avanzados.
+
+El estudio de diferentes métodos que permitan la evaluación de modelos pre
+El estudio de diferentes métricas que permitan  ha sido un área de estudio sobre la que en la actualidad En la actualidad existe un
+
+En la actualidad existe una gran cantidad de métricas para la evaluación de la clasificación, en este apartado se recoge una selección de las métricas más destacadas, se calculan a partir de los indicadores que se extraen de la matriz de confusión, tratados en el punto anterior.
+\medbreak
+La exactitud es una medida de calidad global del modelo, en el que se calcula la ratio general de acierto sobre el total de instancias del conjunto de test, este indicador de calidad se puede aplicar tanto a modelos de clasificación binaria como a modelos de clasificación multi etiqueta.
+\medbreak
+\begin{equation}\tag*{}
+    ACC = \frac{TP+TN}{TP+TN+FP+FN}
+\end{equation}
+
+\subsubsection{Ratios de Probabilidad}
+
+
+Los ratios de probabilidad son métodos que se utilizan fundamentalmente en el ámbito medico para la evaluación de pruebas diagnosticas, en general miden como varia la probabilidad de padecer una determinada patología en función de si el paciente presenta un determinado estado o no lo presenta, de forma similar, para el ámbito de la evaluación de modelos predictivos los ratios de probabilidad nos informan de como varia la probabilidad de que un registro sea positivo en función de la predicción que se realiza.
+\bigbreak
+Tenemos dos tipos de ratios de probabilidad, el ratio de probabilidad positivo LR+ y el ratio de probabilidad negativo LR-. El ratio de probabilidad positivo mide como varia la probabilidad de que un registro sea positivo cuando se clasifica como positivo, así mismo, el ratio de probabilidad negativo mide como varia la probabilidad de que un registro sea positivo cuando se clasifica como negativo, en ambos casos el calculo de las métricas se hace a partir de la sensibilidad y la especificidad. Es importante destacar que los ratios de probabilidad no guardan una relación de proporcionalidad, el cambio en la probabilidad de que un registro sea de clase positiva no varia en la misma proporción cuando el registro se clasifica como positivo que cuando se clasifica como negativo.
+
+\bigbreak
+El ratio de probabilidad positivo es una medida que toma valores mayores que la unidad,  ofrece un mejor indicador cuanto mayor sea el valor que toma, por el contrario el ratio de probabilidad negativo se encuentra en el rango de valores $[0, 1]$, ofrece un mejor indicador cuanto mas próximo al cero se encuentre, en ambos casos los valores próximos a la unidad no ofrecen resultados concluyentes. En la Tabla \ref{tab:2} podemos ver una aproximación de la variación en la probabilidad que se produce para diferentes valores.
+\bigbreak
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}[t]{ccc}
+        Variación en la probabilidad (\%) & \hspace{20pt}LR+\hspace{20pt} & LR- \\\hline
+        +45                              & 10                            & -   \\\hline
+        +30                              & 5                             & -   \\\hline
+        +15                              & 2                             & -   \\\hline
+        0                                & 1                             & 1   \\\hline
+        -15                              & -                             & 0.5 \\\hline
+        -30                              & -                             & 0.2 \\\hline
+        -45                              & -                             & 0.1 \\\hline
+    \end{tabular}
+    \caption{Variación en la probabilidad para diferentes ratios de probabilidad.}
+    \label{tab:2}
+\end{table}
+
+Para el calculo de estas dos métricas se utilizan
+
+\bigbreak
+\begin{equation}\tag*{}
+    LR^{\phantom{.}+}    = \frac{TPR}{1-TNR}
+    \hspace{1cm}
+    LR^{\phantom{.}-} = \frac{1-TPR}{TNR}
+\end{equation}
+\bigbreak
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}[t]{lcc}
+            & \hspace{20pt}Normal\hspace{20pt} & Tumoral \\\hline
+        TPR & 0.667                            & 0.833   \\\hline
+        TNR & 0.833                            & 0.667   \\\hline
+        LR+ & 4.000                            & 2.500   \\\hline
+        LR- & 0.400                            & 0.250   \\\hline
+    \end{tabular}
+    \caption{Métricas obtenidas a partir del fichero de datos breast \_gse26910.}
+    \label{tab:3}
+\end{table}
+
+
