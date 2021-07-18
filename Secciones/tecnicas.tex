@@ -58,7 +58,7 @@ La exactitud es una de las medidas más utilizadas a la hora de establecer la ca
 
 \subsubsection{Sensibilidad y Especificidad}
 
-La sensibilidad y la especificidad son dos medidas complementarias que ofrecen una representación por separado de la exactitud del modelo. En primer lugar, la sensibilidad es un método que mide la tasa de acierto del modelo sobre instancias de clase positiva. De igual forma, la especificidad mide la tasa de acierto del modelo únicamente sobre instancias de clase negativa. En ambos casos el calculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión. El resultado obtenido se encuentra en el intervalo de cero a uno, los valores próximos a cero indican una baja tasa de acierto, mientras que los valores próximos a uno indican una alta tasa de acierto. A diferencia de la exactitud estas dos medidas son sensibles al numero de clases del modelo, solo se pueden aplicar a modelos de clasificación binaria. Para su aplicación a modelos de clasificación multi-etiqueta se puede aplicar el método a una clase concreta que definimos como positiva, el resto de clases se agrupan como clase negativa.
+La sensibilidad y la especificidad son dos métodos complementarios que ofrecen una representación de la exactitud del modelo separando los registros en base a la clase real. La sensibilidad es un método que mide la tasa de acierto del modelo sobre instancias de clase positiva. De igual forma, la especificidad mide la tasa de acierto del modelo sobre instancias de clase negativa. En ambos casos el calculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión. El resultado obtenido se encuentra en el intervalo de cero a uno, los valores próximos a cero indican una baja tasa de acierto, mientras que los valores próximos a uno indican una alta tasa de acierto. A diferencia de la exactitud estos dos métodos son sensibles al numero de clases del modelo, solo se pueden aplicar a modelos de clasificación binaria. Para su aplicación a modelos de clasificación multi-etiqueta se puede aplicar el método a una clase concreta que definimos como positiva, mientras que el resto de clases se agrupan como una única clase que denominamos negativa.
 
 \bigbreak
 \begin{equation}\tag*{}
@@ -72,29 +72,51 @@ La sensibilidad y la especificidad son dos medidas complementarias que ofrecen u
 
 \subsubsection{Precisión y Precisión Inversa}
 
+La precisión y la precisión son métodos
+
+Para concluir con las medid tenemos la precisión y la precisión inversa como medidas de exactitud en base a la clase que predice el modelo, en este apartado 
+
+Podemos incluir la precisión y la precisión inversa dentro del mismo grupo lógico 
+
+La precisión se define como la tasa de acierto del modelo sobre instancias que se predicen de clase positivas. De modo idéntico, la precisión inversa representa la tasa de acierto del modelo sobre instancias que se predicen de clase negativa.
+
+
 \bigbreak
 \begin{equation}\tag*{}
-    TPR = \frac{TP}{P} = \frac{TP}{TP+FN}
+    PPV = \frac{TP}{P^{*}} = \frac{TP}{TP+FP}
     \hspace{1cm}
-    TPN = \frac{TN}{N} = \frac{TN}{TN+FP}
+    NPV = \frac{TN}{N^{*}} = \frac{TN}{TN+FN}
 \end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION RAZON DE VEROSIMILITUD
 
-\subsubsection{Ratios de Probabilidad}
+\subsubsection{Razones de Verosimilitud}
 
-Los ratios de probabilidad son métodos que se utilizan fundamentalmente en el ámbito medico para la evaluación de pruebas diagnosticas, en general miden como varia la probabilidad de padecer una determinada patología en función de si el paciente presenta un determinado estado o no lo presenta, de forma similar, para el ámbito de la evaluación de modelos predictivos los ratios de probabilidad nos informan de como varia la probabilidad de que un registro sea positivo en función de la predicción que se realiza.
-\bigbreak
-Tenemos dos tipos de ratios de probabilidad, el ratio de probabilidad positivo LR+ y el ratio de probabilidad negativo LR-. El ratio de probabilidad positivo mide como varia la probabilidad de que un registro sea positivo cuando se clasifica como positivo, así mismo, el ratio de probabilidad negativo mide como varia la probabilidad de que un registro sea positivo cuando se clasifica como negativo, en ambos casos el calculo de las métricas se hace a partir de la sensibilidad y la especificidad. Es importante destacar que los ratios de probabilidad no guardan una relación de proporcionalidad, el cambio en la probabilidad de que un registro sea de clase positiva no varia en la misma proporción cuando el registro se clasifica como positivo que cuando se clasifica como negativo.
+Las razones de verosimilitud son métodos que se utilizan fundamentalmente en el ámbito medico para la evaluación de pruebas diagnosticas. Los indicadores miden como varia la probabilidad de padecer una determinada patología en en función de si el paciente presenta o no presenta un estado concreto. De forma similar, para el ámbito de la evaluación de modelos predictivos las razones de verosimilitud nos informan de como varia la probabilidad de que un registro sea positivo en función de la predicción que realiza el modelo.
 
 \bigbreak
-El ratio de probabilidad positivo es una medida que toma valores mayores que la unidad,  ofrece un mejor indicador cuanto mayor sea el valor que toma, por el contrario el ratio de probabilidad negativo se encuentra en el rango de valores $[0, 1]$, ofrece un mejor indicador cuanto mas próximo al cero se encuentre, en ambos casos los valores próximos a la unidad no ofrecen resultados concluyentes. En la Tabla \ref{tab:2} podemos ver una aproximación de la variación en la probabilidad que se produce para diferentes valores.
+
+Tenemos dos tipos de razones de verosimilitud, la razón de verosimilitud positiva LR+ y la razón de verosimilitud negativa LR-. La razón de verosimilitud positiva mide como varia la probabilidad de que un registro sea positivo cuando se clasifica como positivo. Por otro lado, la razón de verosimilitud negativa mide como varia la probabilidad de que un registro sea positivo cuando se clasifica como negativo. En ambos casos el calculo de los métodos se hace a partir de la sensibilidad y la especificidad. Es importante destacar que las razones de verosimilitud no guardan una relación de proporcionalidad, el cambio en la probabilidad de que un registro sea de clase positiva no varia en la misma proporción cuando el registro se clasifica como positivo que cuando se clasifica como negativo.
+
+\bigbreak
+
+\begin{equation}\tag*{}
+    LR^{\phantom{.}+}    = \frac{TPR}{1-TNR}
+    \hspace{1cm}
+    LR^{\phantom{.}-} = \frac{1-TPR}{TNR}
+\end{equation}
+\bigbreak
+
+\bigbreak
+
+La razón de verosimilitud positiva es una medida que toma valores mayores que la unidad, ofrece un mejor indicador cuanto mayor sea el valor que toma. Por el contrario, el ratio de probabilidad negativo se encuentra en el rango de valores de cero a uno, ofrece un mejor indicador cuanto mas próximo al cero se encuentre. En ambos casos los valores próximos a la unidad indican que el modelo no tiene capacidad discriminatoria, es decir, la predicción que se realiza no varia la probabilidad de pertenecer a la clase positiva. En la Tabla \ref{tab:2} podemos ver una aproximación de la variación en la probabilidad de pertenecer a la clase positiva que se produce para diferentes razones de verosimilitud.
+
 \bigbreak
 
 \begin{table}[ht]
     \centering
     \begin{tabular}[t]{ccc}
-        Variación en la probabilidad (\%) & \hspace{20pt}LR+\hspace{20pt} & LR- \\\hline
+        Variación (\%) & \hspace{20pt}LR+\hspace{20pt} & LR- \\\hline
         +45                              & 10                            & -   \\\hline
         +30                              & 5                             & -   \\\hline
         +15                              & 2                             & -   \\\hline
@@ -103,18 +125,14 @@ El ratio de probabilidad positivo es una medida que toma valores mayores que la 
         -30                              & -                             & 0.2 \\\hline
         -45                              & -                             & 0.1 \\\hline
     \end{tabular}
-    \caption{Variación en la probabilidad para diferentes ratios de probabilidad.}
+    \caption{Variación en la probabilidad de pertenecer a la clase positiva para diferentes ratios de probabilidad \cite{McGee2002}.}
     \label{tab:2}
 \end{table}
 
-Para el calculo de estas dos métricas se utilizan
-
 \bigbreak
-\begin{equation}\tag*{}
-    LR^{\phantom{.}+}    = \frac{TPR}{1-TNR}
-    \hspace{1cm}
-    LR^{\phantom{.}-} = \frac{1-TPR}{TNR}
-\end{equation}
+
+En la Tabla \ref{tab:3} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. La clase Normal presenta un LR+ de 4 unidades, esto implica un aumento moderado (entre un 15\% y un 30\%) de la probabilidad que tiene un registro de pertenecer a la clase positiva cuando el modelo predice positivo el registro. Por otro lado, la clase Normal presenta un LR- de 0.4 unidades esto supone de nuevo una disminución moderada (entre un 15\% y un 30\%) de la probabilidad que tiene un registro de pertenecer a la clase positiva cuando el modelo predice negativo el registro.
+
 \bigbreak
 
 \begin{table}[ht]
@@ -126,8 +144,11 @@ Para el calculo de estas dos métricas se utilizan
         LR+ & 4.000                            & 2.500   \\\hline
         LR- & 0.400                            & 0.250   \\\hline
     \end{tabular}
-    \caption{Métricas obtenidas a partir del fichero de datos breast\_gse26910.}
+    \caption{Resultados obtenidos a partir del fichero de datos breast\_gse26910.csv}
     \label{tab:3}
 \end{table}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION DOR
+
+\subsubsection{DOR}
 
