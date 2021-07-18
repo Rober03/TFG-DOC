@@ -1,5 +1,7 @@
 \section{Técnicas para la Evaluación de Modelos Predictivos}
 
+%En este punto, se puede hablar de conjunto de test, train etc
+
 En este apartado se realiza una revisión de los principales métodos
 
 
@@ -36,27 +38,50 @@ La matriz de confusión se define de forma general para modelos de clasificació
     \label{tab:1}
 \end{table}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SECCION METODOS ESTADISTICOS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSECCION METODOS ESTADISTICOS
 
 \subsection{Métodos estadísticos}
 
-En esta sección se introducen Se han seleccionado catorce métodos que pretenden por un lado cubrir los más básicos que sirve como apoyo para el calculo y por otro presentar métodos más avanzados.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION Exactitud
 
-En la actualidad se han desarrollado muchos estudios que presentan métodos estadísticos que permiten evaluar la calidad de un modelos predictivo, en esta sección se hace una revisión de los más destacados. Se han seleccionado catorce métodos que pretenden por un lado cubrir los más básicos que sirve como apoyo para el calculo y por otro presentar métodos más avanzados.
+\subsubsection{Exactitud}
 
-El estudio de diferentes métodos que permitan la evaluación de modelos pre
-El estudio de diferentes métricas que permitan  ha sido un área de estudio sobre la que en la actualidad En la actualidad existe un
+La exactitud es una de las medidas más utilizadas a la hora de establecer la calidad general de un modelo predictivo. Este método representa la tasa de acierto que se obtiene al aplicar un modelo predictivo sobre un conjunto de \textit{test}. El calculo de esta medida se hace en base a los cuatro indicadores de rendimiento definidos en la matriz de confusión. El resultado que ofrece se encuentra en el intervalo de cero a uno, los valores próximos a cero corresponden a modelos con una baja tasa de acierto, mientras que los valores próximos a uno corresponden a modelos con una alta tasa de acierto. En términos generales los modelos que obtienen un resultado inferior a media unidad son poco prometedores, en promedio tienen una tasa de aciertos inferior a la de un modelo de clasificación aleatoria. Por último, cabe destacar que es un método independiente del número de clases, se puede aplicar tanto a modelos de clasificación binaria como a modelos de clasificación multi-etiqueta.
 
-En la actualidad existe una gran cantidad de métricas para la evaluación de la clasificación, en este apartado se recoge una selección de las métricas más destacadas, se calculan a partir de los indicadores que se extraen de la matriz de confusión, tratados en el punto anterior.
-\medbreak
-La exactitud es una medida de calidad global del modelo, en el que se calcula la ratio general de acierto sobre el total de instancias del conjunto de test, este indicador de calidad se puede aplicar tanto a modelos de clasificación binaria como a modelos de clasificación multi etiqueta.
-\medbreak
+\bigbreak
+
 \begin{equation}\tag*{}
     ACC = \frac{TP+TN}{TP+TN+FP+FN}
 \end{equation}
 
-\subsubsection{Ratios de Probabilidad}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION SENSIBILIDAD Y ESPECIFICIDAD
 
+\subsubsection{Sensibilidad y Especificidad}
+
+La sensibilidad y la especificidad son dos medidas complementarias que ofrecen una representación por separado de la exactitud del modelo. En primer lugar, la sensibilidad es un método que mide la tasa de acierto del modelo sobre instancias de clase positiva. De igual forma, la especificidad mide la tasa de acierto del modelo únicamente sobre instancias de clase negativa. En ambos casos el calculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión. El resultado obtenido se encuentra en el intervalo de cero a uno, los valores próximos a cero indican una baja tasa de acierto, mientras que los valores próximos a uno indican una alta tasa de acierto. A diferencia de la exactitud estas dos medidas son sensibles al numero de clases del modelo, solo se pueden aplicar a modelos de clasificación binaria. Para su aplicación a modelos de clasificación multi-etiqueta se puede aplicar el método a una clase concreta que definimos como positiva, el resto de clases se agrupan como clase negativa.
+
+\bigbreak
+\begin{equation}\tag*{}
+    TPR = \frac{TP}{P} = \frac{TP}{TP+FN}
+    \hspace{1cm}
+    TPN = \frac{TN}{N} = \frac{TN}{TN+FP}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION PRECISION Y PRECISION INVERSA
+
+\subsubsection{Precisión y Precisión Inversa}
+
+\bigbreak
+\begin{equation}\tag*{}
+    TPR = \frac{TP}{P} = \frac{TP}{TP+FN}
+    \hspace{1cm}
+    TPN = \frac{TN}{N} = \frac{TN}{TN+FP}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION RAZON DE VEROSIMILITUD
+
+\subsubsection{Ratios de Probabilidad}
 
 Los ratios de probabilidad son métodos que se utilizan fundamentalmente en el ámbito medico para la evaluación de pruebas diagnosticas, en general miden como varia la probabilidad de padecer una determinada patología en función de si el paciente presenta un determinado estado o no lo presenta, de forma similar, para el ámbito de la evaluación de modelos predictivos los ratios de probabilidad nos informan de como varia la probabilidad de que un registro sea positivo en función de la predicción que se realiza.
 \bigbreak
@@ -101,7 +126,7 @@ Para el calculo de estas dos métricas se utilizan
         LR+ & 4.000                            & 2.500   \\\hline
         LR- & 0.400                            & 0.250   \\\hline
     \end{tabular}
-    \caption{Métricas obtenidas a partir del fichero de datos breast \_gse26910.}
+    \caption{Métricas obtenidas a partir del fichero de datos breast\_gse26910.}
     \label{tab:3}
 \end{table}
 
