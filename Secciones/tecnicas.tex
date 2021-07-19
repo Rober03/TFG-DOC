@@ -28,11 +28,11 @@ La matriz de confusión se define de forma general para modelos de clasificació
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}[t]{ccc}
-                 & Positivo*          & Negativo*          \\\hline
-        Positivo & Verdadero Positivo & Falso Negativo     \\\hline
-        Negativo & Falso Positivo     & Verdadero Negativo \\\hline
-    \end{tabular}
+    \begin{tabularx}{200pt}{Y Y Y}
+                 & Positivo*    & Negativo* \\\hline
+        Positivo & TP           & FN        \\\hline
+        Negativo & FP           & TN        \\\hline
+    \end{tabularx}
 
     \caption{Matriz de confusión 2x2.}
     \label{tab:1}
@@ -72,14 +72,7 @@ La sensibilidad y la especificidad son dos métodos complementarios que ofrecen 
 
 \subsubsection{Precisión y Precisión Inversa}
 
-La precisión y la precisión son métodos
-
-Para concluir con las medid tenemos la precisión y la precisión inversa como medidas de exactitud en base a la clase que predice el modelo, en este apartado 
-
-Podemos incluir la precisión y la precisión inversa dentro del mismo grupo lógico 
-
-La precisión se define como la tasa de acierto del modelo sobre instancias que se predicen de clase positivas. De modo idéntico, la precisión inversa representa la tasa de acierto del modelo sobre instancias que se predicen de clase negativa.
-
+La precisión y la precisión inversa son métodos que calculan la exactitud del modelo en base a la predicción que se realiza. La precisión es un método que mide la tasa de aciertos del modelo sobre instancias que se predicen positivas. De la misma forma, la precisión inversa se define como la tasa de aciertos del modelo sobre instancias que se predicen negativas. De nuevo, el calculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión. También, son métodos sensibles al numero de clases que se definen en el modelo; de hecho, solo se pueden aplicar a modelos de clasificación binaria. Para su aplicación a modelos de clasificación multi-etiqueta es necesario definir una clase en especifico como positiva, mientras que el resto de clases se agrupan como clase clase negativa.
 
 \bigbreak
 \begin{equation}\tag*{}
@@ -105,17 +98,16 @@ Tenemos dos tipos de razones de verosimilitud, la razón de verosimilitud positi
     \hspace{1cm}
     LR^{\phantom{.}-} = \frac{1-TPR}{TNR}
 \end{equation}
-\bigbreak
 
 \bigbreak
 
-La razón de verosimilitud positiva es una medida que toma valores mayores que la unidad, ofrece un mejor indicador cuanto mayor sea el valor que toma. Por el contrario, el ratio de probabilidad negativo se encuentra en el rango de valores de cero a uno, ofrece un mejor indicador cuanto mas próximo al cero se encuentre. En ambos casos los valores próximos a la unidad indican que el modelo no tiene capacidad discriminatoria, es decir, la predicción que se realiza no varia la probabilidad de pertenecer a la clase positiva. En la Tabla \ref{tab:2} podemos ver una aproximación de la variación en la probabilidad de pertenecer a la clase positiva que se produce para diferentes razones de verosimilitud.
+La razón de verosimilitud positiva es una medida que toma valores mayores que la unidad, ofrece un mejor indicador cuanto mayor sea el valor que toma. Por el contrario, la razón de verosimilitud negativa se encuentra en el rango de valores de cero a uno, ofrece un mejor indicador cuanto mas próximo al cero se encuentre. En ambos casos los valores próximos a la unidad indican que el modelo no tiene capacidad discriminatoria, es decir, la predicción que se realiza no varia la probabilidad de pertenecer a la clase positiva. En la Tabla \ref{tab:2} podemos ver una aproximación de la variación que se produce en la probabilidad de pertenecer a la clase positiva para diferentes razones de verosimilitud.
 
 \bigbreak
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}[t]{ccc}
+    \begin{tabularx}{195pt}{c c c}
         Variación (\%) & \hspace{20pt}LR+\hspace{20pt} & LR- \\\hline
         +45                              & 10                            & -   \\\hline
         +30                              & 5                             & -   \\\hline
@@ -124,8 +116,9 @@ La razón de verosimilitud positiva es una medida que toma valores mayores que l
         -15                              & -                             & 0.5 \\\hline
         -30                              & -                             & 0.2 \\\hline
         -45                              & -                             & 0.1 \\\hline
-    \end{tabular}
-    \caption{Variación en la probabilidad de pertenecer a la clase positiva para diferentes ratios de probabilidad \cite{McGee2002}.}
+    \end{tabularx}
+
+    \caption{Variación en la probabilidad de pertenecer a la clase positiva para diferentes razones de verosimilitud \cite{McGee2002}.}
     \label{tab:2}
 \end{table}
 
@@ -144,11 +137,42 @@ En la Tabla \ref{tab:3} tenemos los resultados obtenidos para el fichero de dato
         LR+ & 4.000                            & 2.500   \\\hline
         LR- & 0.400                            & 0.250   \\\hline
     \end{tabular}
-    \caption{Resultados obtenidos a partir del fichero de datos breast\_gse26910.csv}
+    \caption{LRs obtenidas a partir del fichero de datos breast\_gse26910.csv}
     \label{tab:3}
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION DOR
 
 \subsubsection{DOR}
+
+El DOR es un método que surge a partir de la necesidad de tener un solo indicador de rendimiento que sea fácil de interpretar. Este método no depende del balance entre el número de registros positivos y negativos, en otros métodos como por ejemplo la exactitud esta cuestión presenta un problema la hora de obtener resultados concluyentes. El DOR se calcula a partir del las razones de verosimilitud, se define como el cociente de la razón de verosimilitud positiva entre la razón de verosimilitud negativa. El resultado que ofrece es un valor mayor que cero, cuanto mayor sea este valor mejor rendimiento presentará el modelo.
+
+\bigbreak
+
+\begin{equation}\tag*{}
+    DOR = \frac{LR^{\phantom{.}+}}{LR^{\phantom{.}-}}
+\end{equation}
+
+\bigbreak
+
+En la Tabla \ref{tab:4} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. La clase Tumoral presenta un DOR de 10 unidades, esto implica que para un registro que se predice Tumoral la probabilidad de ser Tumoral es 10 veces mayor que la de ser Normal. De la misma forma, para la clase Normal tenemos un DOR de 10 unidades, de nuevo esto indica que un registro que se predice Normal tiene 10 veces mas probabilidad de ser Normal que de ser Tumoral.
+
+\bigbreak
+
+\begin{table}
+    \centering
+    \begin{tabular}{lcc}
+            & \hspace{20pt}Normal\hspace{20pt}  & Tumoral   \\\hline
+        LR+ & 4.000                             & 2.500     \\\hline
+        LR- & 0.400                             & 0.250     \\\hline
+        DOR & 10                                & 10        \\\hline
+    \end{tabular}
+    \caption{DORs obtenidos a partir del fichero de datos breast\_gse26910.csv}
+    \label{tab:4}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION Índice Youden
+
+\subsubsection{Índice Youden}
 
