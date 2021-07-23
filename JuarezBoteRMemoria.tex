@@ -14,6 +14,9 @@
 \usepackage{multirow}
 \usepackage{array}
 \usepackage{tabularx}
+\usepackage[small]{caption}
+\usepackage{flafter} 
+\usepackage{subfig} 
 
 \setlength\extrarowheight{4pt}
 
@@ -90,9 +93,19 @@ Universidad Pablo de Olavide
     \setcounter{page}{1}
     \include{Secciones/introduccion.tex}
     \include{Secciones/tecnicas.tex}
+    \include{Secciones/curva_a.tex}
+    \include{Secciones/tecnologias.tex}
+    \include{Secciones/experimentacion.tex}
+    \include{Secciones/conclusiones.tex}
+
 
     % BIBLIOGRAFÍA
     \section{Bibliografía}
     \nocite{*}
     \printbibliography[heading=none]
+
+    % ANEXOS
+
+    \include{Secciones/anexo1.tex}
+
 \end{document}

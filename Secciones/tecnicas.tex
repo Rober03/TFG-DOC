@@ -1,6 +1,6 @@
 \section{Técnicas para la Evaluación de Modelos Predictivos}
 
-%En este punto, se puede hablar de conjunto de test, train etc
+%En este punto, se puede hablar de conjunto de test, train etc TO DO
 
 En este apartado se realiza una revisión de los principales métodos
 
@@ -9,11 +9,11 @@ Los modelos predictivos en los que se centra esta sección son modelos de clasif
 
 \subsection{Matriz de confusión}
 
-La matriz de confusión es una herramienta que se suele aplicar en las primeras fases del análisis, permite organizar los indicadores de rendimiento obtenidos para un modelo predictivo, en general, ofrece un recuento de los registros en base a la clase real de cada registro y a la predicción que realiza el modelo. La matriz de confusión se define como una matriz cuadrada de $NxN$ elementos donde $N$ es el numero de clases presentes en el modelo, cada fila de la matriz de confusión define la clase real del registro y cada columna define la clase predicha por el modelo o viceversa.
+La matriz de confusión es una herramienta que se suele aplicar en las primeras fases del análisis, permite organizar los indicadores de rendimiento obtenidos para un modelo predictivo, en general, ofrece un recuento de los registros en base a la clase real de cada registro y a la predicción que realiza el modelo. La matriz de confusión se define como una matriz cuadrada de $NxN$ elementos donde $N$ es el número de clases presentes en el modelo, cada fila de la matriz de confusión define la clase real del registro y cada columna define la clase predicha por el modelo o viceversa.
 
 \bigbreak
 
-En la matriz de confusión se definen cuatro indicadores, estos indicadores ofrecen una visión general del rendimiento del modelo y son la base para el calculo de algunas métricas mas avanzadas que se tratan en secciones posteriores de este documento. Los indicadores definidos en la matriz de confusión son:
+En la matriz de confusión se definen cuatro indicadores, estos indicadores ofrecen una visión general del rendimiento del modelo y son la base para el cálculo de algunas métricas más avanzadas que se tratan en secciones posteriores de este documento. Los indicadores definidos en la matriz de confusión son:
 
 \begin{itemize}
     \item Verdadero Positivo: Registros de clase real positiva y en los que la predicción se hace correctamente.
@@ -24,155 +24,297 @@ En la matriz de confusión se definen cuatro indicadores, estos indicadores ofre
 
 \pagebreak
 
-La matriz de confusión se define de forma general para modelos de clasificación multi-etiqueta, sin embargo, a la hora de obtener los indicadores de rendimiento para modelos de clasificación con mas de dos clases tenemos que definir $N$ matrices una por cada clase del modelo, en cada matriz se define positiva una de las clases y se agrupan como negativas el resto, de esta forma, el estudio que se realiza a partir de las diferentes sub-matrices ya no es un estudio global, sino que es especifico para cada clase concreta.
+La matriz de confusión se define de forma general para modelos de clasificación multi etiqueta, sin embargo, a la hora de obtener los indicadores de rendimiento para modelos de clasificación con más de dos clases tenemos que definir $N$ matrices una por cada clase del modelo, en cada matriz se define positiva una de las clases y se agrupan como negativas el resto, de esta forma, el estudio que se realiza a partir de las diferentes sub matrices ya no es un estudio global, sino que es específico para cada clase concreta.
 
-\begin{table}[ht]
+\begin{table}[htp]
+    \small
     \centering
-    \begin{tabularx}{200pt}{Y Y Y}
-                 & Positivo*    & Negativo* \\\hline
-        Positivo & TP           & FN        \\\hline
-        Negativo & FP           & TN        \\\hline
+    \begin{tabularx}{150pt}{Y Y Y}
+            & P$^{\prime}$  & N$^{\prime}$    \\\hline
+        P   & TP            & FN              \\\hline
+        N   & FP            & TN              \\\hline
     \end{tabularx}
 
-    \caption{Matriz de confusión 2x2.}
+    \caption{Matriz de confusión 2x2. Las etiquetas P$^{\prime}$ y N$^{\prime}$ hacen referencia a registros que se predicen positivos y negativos respectivamente. Esta nomenclatura se utiliza a lo largo del documento en más ocasiones.}
     \label{tab:1}
 \end{table}
 
+\clearpage
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSECCION METODOS ESTADISTICOS
 
-\subsection{Métodos estadísticos}
+\subsection{Métodos Analíticos}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION Exactitud
 
 \subsubsection{Exactitud}
 
-La exactitud es una de las medidas más utilizadas a la hora de establecer la calidad general de un modelo predictivo. Este método representa la tasa de acierto que se obtiene al aplicar un modelo predictivo sobre un conjunto de \textit{test}. El calculo de esta medida se hace en base a los cuatro indicadores de rendimiento definidos en la matriz de confusión. El resultado que ofrece se encuentra en el intervalo de cero a uno, los valores próximos a cero corresponden a modelos con una baja tasa de acierto, mientras que los valores próximos a uno corresponden a modelos con una alta tasa de acierto. En términos generales los modelos que obtienen un resultado inferior a media unidad son poco prometedores, en promedio tienen una tasa de aciertos inferior a la de un modelo de clasificación aleatoria. Por último, cabe destacar que es un método independiente del número de clases, se puede aplicar tanto a modelos de clasificación binaria como a modelos de clasificación multi-etiqueta.
+La exactitud es una de las medidas más utilizadas a la hora de establecer la calidad general de un modelo predictivo. Este método representa la tasa de acierto que se obtiene al aplicar un modelo predictivo sobre un conjunto de \textit{test}. El cálculo de esta medida se hace en base a los cuatro indicadores de rendimiento definidos en la matriz de confusión. El resultado que ofrece se encuentra en el intervalo de cero a uno, los valores próximos a cero corresponden a modelos con una baja tasa de acierto, mientras que los valores próximos a uno corresponden a modelos con una alta tasa de acierto. En términos generales los modelos que obtienen un resultado inferior a media unidad son poco prometedores, en promedio tienen una tasa de aciertos inferior a la de un modelo de clasificación aleatoria. Por último, cabe destacar que es un método independiente del número de clases, se puede aplicar tanto a modelos de clasificación binaria como a modelos de clasificación multi etiqueta.
 
 \bigbreak
 
-\begin{equation}\tag*{}
+\begin{equation}
     ACC = \frac{TP+TN}{TP+TN+FP+FN}
+    \label{eq:ACC}  
 \end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION SENSIBILIDAD Y ESPECIFICIDAD
 
 \subsubsection{Sensibilidad y Especificidad}
 
-La sensibilidad y la especificidad son dos métodos complementarios que ofrecen una representación de la exactitud del modelo separando los registros en base a la clase real. La sensibilidad es un método que mide la tasa de acierto del modelo sobre instancias de clase positiva. De igual forma, la especificidad mide la tasa de acierto del modelo sobre instancias de clase negativa. En ambos casos el calculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión. El resultado obtenido se encuentra en el intervalo de cero a uno, los valores próximos a cero indican una baja tasa de acierto, mientras que los valores próximos a uno indican una alta tasa de acierto. A diferencia de la exactitud estos dos métodos son sensibles al numero de clases del modelo, solo se pueden aplicar a modelos de clasificación binaria. Para su aplicación a modelos de clasificación multi-etiqueta se puede aplicar el método a una clase concreta que definimos como positiva, mientras que el resto de clases se agrupan como una única clase que denominamos negativa.
+La sensibilidad y la especificidad son dos métodos complementarios que ofrecen una representación de la exactitud del modelo separando los registros en base a la clase real. La sensibilidad es un método que mide la tasa de acierto del modelo sobre instancias de clase positiva. De igual forma, la especificidad mide la tasa de acierto del modelo sobre instancias de clase negativa. En ambos casos el cálculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión. El resultado obtenido se encuentra en el intervalo de cero a uno, los valores próximos a cero indican una baja tasa de acierto, mientras que los valores próximos a uno indican una alta tasa de acierto. A diferencia de la exactitud estos dos métodos son sensibles al número de clases del modelo, solo se pueden aplicar a modelos de clasificación binaria. Para su aplicación a modelos de clasificación multi etiqueta se puede aplicar el método a una clase concreta que definimos como positiva, mientras que el resto de clases se agrupan como una única clase que denominamos negativa.
 
 \bigbreak
-\begin{equation}\tag*{}
+
+\begin{equation}
     TPR = \frac{TP}{P} = \frac{TP}{TP+FN}
-    \hspace{1cm}
-    TPN = \frac{TN}{N} = \frac{TN}{TN+FP}
+    \label{eq:TPR}      
 \end{equation}
 
+\bigbreak
+
+\begin{equation}
+    TNR = \frac{TN}{N} = \frac{TN}{TN+FP}
+    \label{eq:TNR}    
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION PRECISION Y PRECISION INVERSA
 
 \subsubsection{Precisión y Precisión Inversa}
 
-La precisión y la precisión inversa son métodos que calculan la exactitud del modelo en base a la predicción que se realiza. La precisión es un método que mide la tasa de aciertos del modelo sobre instancias que se predicen positivas. De la misma forma, la precisión inversa se define como la tasa de aciertos del modelo sobre instancias que se predicen negativas. De nuevo, el calculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión. También, son métodos sensibles al numero de clases que se definen en el modelo; de hecho, solo se pueden aplicar a modelos de clasificación binaria. Para su aplicación a modelos de clasificación multi-etiqueta es necesario definir una clase en especifico como positiva, mientras que el resto de clases se agrupan como clase clase negativa.
+La precisión y la precisión inversa son métodos que calculan la exactitud del modelo en base a la predicción que se realiza. La precisión es un método que mide la tasa de aciertos del modelo sobre instancias que se predicen positivas. De la misma forma, la precisión inversa se define como la tasa de aciertos del modelo sobre instancias que se predicen negativas. De nuevo, el cálculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión. También, son métodos sensibles al número de clases que se definen en el modelo; de hecho, solo se pueden aplicar a modelos de clasificación binaria. Para su aplicación a modelos de clasificación multi etiqueta es necesario definir una clase en específico como positiva, mientras que el resto de clases se agrupan como clase negativa.
 
 \bigbreak
-\begin{equation}\tag*{}
-    PPV = \frac{TP}{P^{*}} = \frac{TP}{TP+FP}
-    \hspace{1cm}
-    NPV = \frac{TN}{N^{*}} = \frac{TN}{TN+FN}
+
+\begin{equation}
+    PPV = \frac{TP}{P^{\prime}} = \frac{TP}{TP+FP}
+    \label{eq:PPV}
+\end{equation}
+
+\bigbreak
+
+\begin{equation}
+    NPV = \frac{TN}{N^{\prime}} = \frac{TN}{TN+FN}
+    \label{eq:NPV}
 \end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION RAZON DE VEROSIMILITUD
 
 \subsubsection{Razones de Verosimilitud}
 
-Las razones de verosimilitud son métodos que se utilizan fundamentalmente en el ámbito medico para la evaluación de pruebas diagnosticas. Los indicadores miden como varia la probabilidad de padecer una determinada patología en en función de si el paciente presenta o no presenta un estado concreto. De forma similar, para el ámbito de la evaluación de modelos predictivos las razones de verosimilitud nos informan de como varia la probabilidad de que un registro sea positivo en función de la predicción que realiza el modelo.
+Las razones de verosimilitud son métodos que se utilizan fundamentalmente en el ámbito médico para la evaluación de pruebas diagnósticas. Los indicadores miden como varia la probabilidad de padecer una determinada patología en función de si el paciente presenta o no presenta un estado concreto. De forma similar, para el ámbito de la evaluación de modelos predictivos las razones de verosimilitud nos informan de cómo varia la probabilidad de que un registro sea positivo en función de la predicción que realiza el modelo.
 
 \bigbreak
 
-Tenemos dos tipos de razones de verosimilitud, la razón de verosimilitud positiva LR+ y la razón de verosimilitud negativa LR-. La razón de verosimilitud positiva mide como varia la probabilidad de que un registro sea positivo cuando se clasifica como positivo. Por otro lado, la razón de verosimilitud negativa mide como varia la probabilidad de que un registro sea positivo cuando se clasifica como negativo. En ambos casos el calculo de los métodos se hace a partir de la sensibilidad y la especificidad. Es importante destacar que las razones de verosimilitud no guardan una relación de proporcionalidad, el cambio en la probabilidad de que un registro sea de clase positiva no varia en la misma proporción cuando el registro se clasifica como positivo que cuando se clasifica como negativo.
+Tenemos dos tipos de razones de verosimilitud, la razón de verosimilitud positiva LR+ y la razón de verosimilitud negativa LR-. La razón de verosimilitud positiva mide como varia la probabilidad de que un registro sea positivo cuando se clasifica como positivo. Por otro lado, la razón de verosimilitud negativa mide como varia la probabilidad de que un registro sea positivo cuando se clasifica como negativo. En ambos casos el cálculo de los métodos se hace a partir de la sensibilidad y la especificidad. Es importante destacar que las razones de verosimilitud no guardan una relación de proporcionalidad, el cambio en la probabilidad de que un registro sea de clase positiva no varía en la misma proporción cuando el registro se clasifica como positivo que cuando se clasifica como negativo.
 
 \bigbreak
 
-\begin{equation}\tag*{}
+\begin{equation}
     LR^{\phantom{.}+}    = \frac{TPR}{1-TNR}
-    \hspace{1cm}
-    LR^{\phantom{.}-} = \frac{1-TPR}{TNR}
+    \label{eq:LR+}   
 \end{equation}
 
 \bigbreak
 
-La razón de verosimilitud positiva es una medida que toma valores mayores que la unidad, ofrece un mejor indicador cuanto mayor sea el valor que toma. Por el contrario, la razón de verosimilitud negativa se encuentra en el rango de valores de cero a uno, ofrece un mejor indicador cuanto mas próximo al cero se encuentre. En ambos casos los valores próximos a la unidad indican que el modelo no tiene capacidad discriminatoria, es decir, la predicción que se realiza no varia la probabilidad de pertenecer a la clase positiva. En la Tabla \ref{tab:2} podemos ver una aproximación de la variación que se produce en la probabilidad de pertenecer a la clase positiva para diferentes razones de verosimilitud.
+\begin{equation}
+    LR^{\phantom{.}-} = \frac{1-TPR}{TNR}
+    \label{eq:LR-}
+\end{equation}
 
 \bigbreak
 
-\begin{table}[ht]
+La razón de verosimilitud positiva es una medida que toma valores mayores que la unidad, ofrece un mejor indicador cuanto mayor sea el valor que toma. Por el contrario, la razón de verosimilitud negativa se encuentra en el rango de valores de cero a uno, ofrece un mejor indicador cuanto más próximo al cero se encuentre. En ambos casos los valores próximos a la unidad indican que el modelo no tiene capacidad discriminatoria, es decir, la predicción que se realiza no varía la probabilidad de pertenecer a la clase positiva. En la Tabla \ref{tab:2} podemos ver una aproximación de la variación que se produce en la probabilidad de pertenecer a la clase positiva para diferentes razones de verosimilitud.
+
+\bigbreak
+
+\begin{table}[htp]
+    \small
     \centering
-    \begin{tabularx}{195pt}{c c c}
-        Variación (\%) & \hspace{20pt}LR+\hspace{20pt} & LR- \\\hline
-        +45                              & 10                            & -   \\\hline
-        +30                              & 5                             & -   \\\hline
-        +15                              & 2                             & -   \\\hline
-        0                                & 1                             & 1   \\\hline
-        -15                              & -                             & 0.5 \\\hline
-        -30                              & -                             & 0.2 \\\hline
-        -45                              & -                             & 0.1 \\\hline
-    \end{tabularx}
+    \begin{tabular}{l l l}
+        Variación (\%) & \hspace{10pt}LR+ & \hspace{10pt}LR- \\\hline
+        +45            & \hspace{10pt}10  & \hspace{10pt}-   \\\hline
+        +30            & \hspace{10pt}5   & \hspace{10pt}-   \\\hline
+        +15            & \hspace{10pt}2   & \hspace{10pt}-   \\\hline
+        0              & \hspace{10pt}1   & \hspace{10pt}1   \\\hline
+        -15            & \hspace{10pt}-   & \hspace{10pt}0.5 \\\hline
+        -30            & \hspace{10pt}-   & \hspace{10pt}0.2 \\\hline
+        -45            & \hspace{10pt}-   & \hspace{10pt}0.1 \\\hline
+    \end{tabular}
 
     \caption{Variación en la probabilidad de pertenecer a la clase positiva para diferentes razones de verosimilitud \cite{McGee2002}.}
     \label{tab:2}
 \end{table}
 
 \bigbreak
+%% CAMBIAR NORMAL POR TUMORAL
 
-En la Tabla \ref{tab:3} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. La clase Normal presenta un LR+ de 4 unidades, esto implica un aumento moderado (entre un 15\% y un 30\%) de la probabilidad que tiene un registro de pertenecer a la clase positiva cuando el modelo predice positivo el registro. Por otro lado, la clase Normal presenta un LR- de 0.4 unidades esto supone de nuevo una disminución moderada (entre un 15\% y un 30\%) de la probabilidad que tiene un registro de pertenecer a la clase positiva cuando el modelo predice negativo el registro.
-
-\bigbreak
-
-\begin{table}[ht]
-    \centering
-    \begin{tabular}[t]{lcc}
-            & \hspace{20pt}Normal\hspace{20pt} & Tumoral \\\hline
-        TPR & 0.667                            & 0.833   \\\hline
-        TNR & 0.833                            & 0.667   \\\hline
-        LR+ & 4.000                            & 2.500   \\\hline
-        LR- & 0.400                            & 0.250   \\\hline
-    \end{tabular}
-    \caption{LRs obtenidas a partir del fichero de datos breast\_gse26910.csv}
-    \label{tab:3}
-\end{table}
+En la Tabla \ref{tab:3} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. La clase Normal presenta un LR+ de 4 unidades, esto implica un aumento moderado (entre un 15\% y un 30\%) de la probabilidad que tiene un registro de pertenecer a la clase Normal cuando el modelo predice Normal el registro. Por otro lado, la clase Normal presenta un LR- de 0.4 unidades esto supone de nuevo una disminución moderada (entre un 15\% y un 30\%) de la probabilidad que tiene un registro de pertenecer a la clase Normal cuando el modelo predice Tumoral el registro.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION DOR
 
-\subsubsection{DOR}
+\subsubsection{Diagnostic Odds Ratio}
 
-El DOR es un método que surge a partir de la necesidad de tener un solo indicador de rendimiento que sea fácil de interpretar. Este método no depende del balance entre el número de registros positivos y negativos, en otros métodos como por ejemplo la exactitud esta cuestión presenta un problema la hora de obtener resultados concluyentes. El DOR se calcula a partir del las razones de verosimilitud, se define como el cociente de la razón de verosimilitud positiva entre la razón de verosimilitud negativa. El resultado que ofrece es un valor mayor que cero, cuanto mayor sea este valor mejor rendimiento presentará el modelo.
+El DOR \cite{dor_2003} es un método que surge a partir de la necesidad de tener un solo indicador de rendimiento que sea fácil de interpretar. Este método no depende del balance entre el número de registros positivos y negativos, en otros métodos como por ejemplo la exactitud esta cuestión presenta un problema la hora de obtener resultados concluyentes. El DOR se calcula a partir de las razones de verosimilitud, se define como el cociente de la razón de verosimilitud positiva entre la razón de verosimilitud negativa. El resultado que ofrece es un valor mayor que cero, cuanto mayor sea este valor mejor rendimiento presentará el modelo.
 
 \bigbreak
 
-\begin{equation}\tag*{}
-    DOR = \frac{LR^{\phantom{.}+}}{LR^{\phantom{.}-}}
+\begin{equation}
+    DOR = \frac{LR^{\phantom{.}+}}{LR^{\phantom{.}-}} = \frac{TPR}{1-TNR} \cdot \frac{TNR}{1-TPR} = \frac{TP \cdot TN}{FP \cdot FN}
+    \label{eq:DOR}
 \end{equation}
 
 \bigbreak
 
-En la Tabla \ref{tab:4} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. La clase Tumoral presenta un DOR de 10 unidades, esto implica que para un registro que se predice Tumoral la probabilidad de ser Tumoral es 10 veces mayor que la de ser Normal. De la misma forma, para la clase Normal tenemos un DOR de 10 unidades, de nuevo esto indica que un registro que se predice Normal tiene 10 veces mas probabilidad de ser Normal que de ser Tumoral.
+En la Tabla \ref{tab:4} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. La clase Tumoral presenta un DOR de 10 unidades, esto implica que para un registro que se predice Tumoral la probabilidad de ser Tumoral es 10 veces mayor que la de ser Normal.
 
-\bigbreak
-
-\begin{table}
-    \centering
-    \begin{tabular}{lcc}
-            & \hspace{20pt}Normal\hspace{20pt}  & Tumoral   \\\hline
-        LR+ & 4.000                             & 2.500     \\\hline
-        LR- & 0.400                             & 0.250     \\\hline
-        DOR & 10                                & 10        \\\hline
-    \end{tabular}
-    \caption{DORs obtenidos a partir del fichero de datos breast\_gse26910.csv}
-    \label{tab:4}
-\end{table}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION Índice Youden
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION ÍNDICE YOUDEN
 
 \subsubsection{Índice Youden}
 
+El índice de Youden \cite{Youden1950} se define como la suma de la sensibilidad y la especificidad menos la unidad, ofrece un indicador de rendimiento independiente de la diferencia entre el número de registros de cada clase. El resultado que ofrece se encuentra en el intervalo $[-1, 1]$, los valores próximos a -1 indican una casi nula capacidad discriminatoria entre clases, por otro lado, un resultado próximo a 1 indica una alta capacidad discriminatoria. El índice Youden pondera de la misma forma la sensibilidad que la especificidad, para un modelo balanceado que clasifica positivos todos los registros tendrá un resultado de 0 lo que se puede interpretar como un modelo poco prometedor. Para obtener un resultado que este próximo a la unidad es necesario que el modelo tenga buenas tasas de sensibilidad y especificidad, en general el índice Youden penaliza resultados bajos de sensibilidad y/o especificidad.
+\bigbreak
+
+\begin{equation}
+    YI = TPR + TNR - 1
+    \label{eq:YI}
+\end{equation}
+
+\bigbreak
+
+En la Tabla \ref{tab:5} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. Este caso práctico muestra un índice de Youden de 0.5 esto implica que la predicción que hace el modelo tiene una capacidad discriminatoria entre clases aceptable.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION COEFICIENTE DE CORRELACIÓN DE MATTHEWS
+
+\subsubsection{Coeficiente de Correlación de Matthews}
+
+El coeficiente de correlación de Matthews \cite{Matthews1975} es un método que mide la correlación que existe entre la clase real y la predicción que realiza el modelo. Se trata de un caso especial del coeficiente de correlación de Pearson en el que se supone que hay dos clases, una positiva que toma el valor de la unidad y otra negativa que toma el valor cero. La fórmula original se puede simplificar y redefinir en base a los indicadores de rendimiento incluidos en la matriz de confusión \cite{LeiMao2019}. De la misma forma que sucede con el coeficiente de correlación de Pearson, el resultado que se obtiene de este método se encuentra en el intervalo $[-1, 1]$. Modelos con un MCC inferior a cero tienen una correlación negativa esto implica el modelo tiende a predecir negativo registros positivos y viceversa. Por otro lado, un MCC superior a 0 implica una correlación positiva, esto supone una mejora en promedio en las tasas de acierto del modelo. En la Tabla \ref{tab:3} tenemos la interpretación general para diferentes valores del coeficiente de correlación.
+
+\bigbreak
+
+\begin{equation}
+    MCC = \frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}
+    \label{eq:MCC}
+\end{equation}
+
+\bigbreak
+
+En la Tabla \ref{tab:5} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. El coeficiente de correlación de Matthews que se obtiene en este caso para la clase Tumoral es de 0.507, a partir de la Tabla \ref{tab:3} se determina que existe una fuerte correlación entre clase y predicción.
+
+\bigbreak
+
+\begin{table}[htp]
+    \small
+    \centering
+    \begin{tabular}{l l l}
+        Desde             & \hspace{10pt}Hasta             & \hspace{10pt}Interpretación       \\\hline
+        $0$               & \hspace{10pt}$0.1$             & \hspace{10pt}Correlación nula     \\\hline
+        $0.1$             & \hspace{10pt}$0.3$             & \hspace{10pt}Correlación leve     \\\hline
+        $0.3$             & \hspace{10pt}$0.5$             & \hspace{10pt}Correlación moderada \\\hline
+        $0.5$             & \hspace{10pt}$1$               & \hspace{10pt}Correlación fuerte   \\\hline
+    \end{tabular}
+    \caption{Interpretación para diferentes valores de correlación \cite{Pearson2021}.}
+    \label{tab:3}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION DP
+
+\subsubsection{Poder Discriminante}
+
+El poder discriminante \cite{DP2006} es un método que representa el rendimiento del modelo en términos de capacidad de predecir instancias positivas y negativas. El calculo se hace a partir de la sensibilidad y la especificidad, la relación que se establece entre ambos indicadores se define en la ecuación \ref{eq:DP}. El resultado se encuentra definido en el intervalo $[-\infty, +\infty]$, los valores menores que la unidad indican una baja capacidad discriminatoria entre instancias positiva y negativas. Para valores mayores que la unidad e inferior a dos unidades el modelo presenta una capacidad discriminatoria limitada, para un DP entre dos unidades y tres unidades la capacidad discriminatoria es aceptable. Por ultimo, un DP mayor a 3 unidades implica una capacidad discriminatoria realmente buena.
+
+\bigbreak
+
+\begin{equation}
+    DP = \frac{\sqrt{3}}{\pi}(\log{\frac{TPR}{1-TNR}}+\log{\frac{TNR}{1-TPR}})
+    \label{eq:DP}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION MEDIDA F
+
+\subsubsection{Medida F}
+
+La medida F se define como la media harmónica entre sensibilidad y precisión. La media harmónica ofrece un resultado que pondera positivamente los valores inferiores al resto, en este caso es un método que permite obtener la media entre la sensibilidad y la precisión penalizando tasas bajas de acierto en cualquiera de las dos medidas. El resultado que se obtiene se encuentra en el intervalo de cero a uno, cuanto mayor sea el valor mejores tasas de sensibilidad y/o precisión tendrá el modelo.
+
+\bigbreak
+
+\begin{equation}
+    F_{1} = \frac{2 \cdot PPV \cdot TPR}{PPV+TPR} = \frac{2 \cdot TP}{2 \cdot TP + FP + FN}
+    \label{eq:FSCORE}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION MARKEDNESS
+
+\subsubsection{Markedness}
+
+
+
+\bigbreak
+
+\begin{equation}
+    MK = PPV + NPV - 1
+    \label{eq:MK}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION EXACTITUD BALANCEADA
+
+\subsubsection{Exactitud Balanceada}
+
+La exactitud balanceada \cite{bcr2010} es un método que de nuevo surge de la necesidad de obtener un indicador que no dependa de que haya una diferencia notable entre le numero de registros positivos y negativos. La exactitud balanceada ofrece un indicador de la media aritmética entre la sensibilidad y la especificidad. La sensibilidad y la especificidad son dos indicadores independientes de la variación en el número de registros de cada clase, por tanto al calcular la exactitud balaceada únicamente a partir de estos indicadores se obtiene una medida independiente del balance entre el numero de instancias de cada clase. El resultado que ofrece se encuentra en el intervalo de valores de cero a uno, cuanto más próximo a la unidad se encuentre el resultado mejores tasas de sensibilidad y/o especificidad tendrá el modelo.
+
+\bigbreak
+
+\begin{equation}
+    BCR = \frac{TPR \cdot TNR}{2}
+    \label{eq:BCR}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION MEDIA GEOMETRICA
+
+\subsubsection{Media Geométrica}
+
+La media geométrica \cite{tharwat_2018} es un método que en cuanto a concepto es muy similar al de exactitud balanceada, ambos miden de forma similar la media entre la sensibilidad y la especificidad de un modelo. La principal diferencia entre la exactitud balanceada y la media geométrica es que en el primer método se pondera de la misma forma la sensibilidad que la especificidad, mientras que aplicando la media geométrica obtenemos un resultado que pondera positivamente los valores inferiores al resto. El resultado que se obtiene aplicando la media geométrica es inferior al que se obtiene aplicando la exactitud balanceada. El resultado se encuentra en el rango de valores de cero a uno, cuanto más próximo a uno se encuentre el indicador mejores tasas de sensibilidad y/o especificidad tendrá el modelo.
+
+\bigbreak
+
+\begin{equation}
+    GM = \sqrt{TPR \cdot TNR}
+    \label{eq:GM}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION PRECISION DE OPTIMIZACION
+
+\subsubsection{Precisión de Optimización}
+
+El objetivo principal del método precisión de optimización es obtener una forma representar la exactitud, en la que se tenga en cuenta el balance entre la tasa de aciertos para registros positivos y la tasa de aciertos para registros negativos. El calculo del método se hace en base a la ecuación \ref{eq:OP}, podemos ver que la formula se compone de dos términos el primero es la exactitud, el segundo termino es una indicador del balance entre la sensibilidad y la especificidad. El resultado que se obtiene se encuentra en el intervalo de cero a uno, cuanto más se aproxime el resultado a la unidad mejores tasas de acierto obtendrá el modelo.
+
+\bigbreak
+
+\begin{equation}
+    OP = ACC - \frac{|TPR-TNR|}{TPR+TNR}
+    \label{eq:OP}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION JACCARD
+
+\subsubsection{Jaccard}
+
+El índice de  Jaccard se formula originalmente como un método que mide el grado similitud entre dos conjuntos de datos. Para su aplicación en la evaluación de modelos predictivos, el método se calcula en base a la clase y a la predicción del modelo. La formula original se puede transformar en una ecuación que este expresada en base a los indicadores de rendimiento definidos en la matriz de confusión.
+
+
+El índice de Jaccard es el cociente de dividir la intersección El resultado que se obtiene se encuentra en el rango de cero a uno, cero indica que no hay similitud 
+
+\bigbreak
+
+\begin{equation}
+    Jaccard = \frac{TP}{TP+FN+FP}
+    \label{eq:Jaccard}
+\end{equation}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSECCION METODOS GRÁFiCOS
+
+\subsection{Métodos Gráficos}
+
+\clearpage
