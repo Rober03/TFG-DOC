@@ -2,10 +2,23 @@
 
 \subsection{Descripción de la Experimentación}
 
+En esta sección se cubre la parte experimental del proyecto. Todo el desarrollo ha sido realizado utilizando Knime, una herramienta para el análisis de datos ampliamente utilizada en este sector. El objetivo principal es ofrecer una comparación entre las diferentes métricas vistas en secciones anteriores, poniendo especial énfasis en la comparación de estas con el nuevo método grafico curva-A.
+
+\bigbreak
+
+Para la experimentación vamos a partir de una selección de seis ficheros de datos, todos los ficheros utilizados en la experimentación han sido obtenidos de la web del SBCB \url{https://sbcb.inf.ufrgs.br/cumida}, en general los conjuntos de datos forman parte de un repositorio de datos relacionado con diversos tipos de cáncer, estos conjuntos de datos cubren un amplio rango de casuísticas y suponen una excelente elección para entrenar modelos tanto de clasificación binaria como modelos de clasificación multi etiqueta.
+
+\bigbreak
+
+El escenario de pruebas que se ha definido no se realiza ningún tipo de preprocesado al conjunto de datos de entrada, únicamente se aplica una normalización, ya que supone una mejora en el rendimiento de los modelos basados en el teorema de Bayes. Para los diferentes conjuntos de datos, se va a aplicar un predictor basado en el teorema de Bayes. Para la validación aplicamos validación cruzada con 10 iteraciones, el uso de este tipo de validación está muy extendido en proyectos de análisis de datos, ya que ofrece en general grandes resultados. Para cada fichero presentaremos los resultados obtenidos fruto de aplicar las métricas vistas anteriormente al conjunto de datos correspondiente. Posteriormente se exponen las conclusiones.
+
+
 \clearpage
 
 \subsection{Resultados de la Experimentación}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESULTADO
 \subsubsection{Fichero brain\_gse15824.csv}
 
 \begin{table}[htp]
@@ -16,7 +29,7 @@
         $0.757$   & $0.764$ \\\hline
     \end{tabularx}
     \caption{Resultados globales para el fichero brain\_gse15824.csv.}
-    \label{tab:4}
+    \label{tab:10}
 \end{table}
 
 \begin{table}[htp]
@@ -29,7 +42,7 @@
         PPV     &  $0.800$      & $0.632$      & $0.667$              & $1.000$                  \\\hline
         NPV     &  $0.875$      & $1.000$      & $0.853$              & $1.000$                  \\\hline
         LR+     &  $14.500$     & $3.571$      & $8.571$              & -                        \\\hline
-        LR-     &  $0.518$      & -            & $0.739$              & -                        \\\hline
+        LR-     &  $0.518$      & $0.000$      & $0.739$              & $0.000$                  \\\hline
         DOR     &  $28.000$     & -            & $11.600$             & -                        \\\hline
         YI      &  $0.466$      & $0.720$      & $0.252$              & $1.000$                  \\\hline
         MCC     &  $0.561$      & $0.674$      & $0.362$              & $1.000$                  \\\hline
@@ -43,7 +56,7 @@
 
     \end{tabularx}
     \caption{Resultados agrupados por clase para el fichero brain\_gse15824.csv.}
-    \label{tab:6}
+    \label{tab:11}
 \end{table}
 
 \clearpage
@@ -55,7 +68,66 @@
      \subfloat[Curva A]{
        \includegraphics[width=0.4\textwidth]{brain_gse15824_A_CURVE.PNG}}
     \caption{Curvas obtenidas para el fichero brain\_gse15824.csv.}
-    \label{fig:3}
+    \label{fig:10}
+\end{figure}
+
+\bigbreak
+
+La clase Astrocytoma presenta una sensibilidad baja, tan solo el 50\% de instancias de esta clase se predicen de forma correcta, sin embargo, la probabilidad sube al 80\% cuando se trata de la tasa de acierto que se produce cuando se predice un registro de esta clase. Los índices de verosimilitud verifican la tendencia, por un lado se presenta un aumento de mas del 45\% en la probablilidad que que tiene un registro que se predice de clase Astrocytoma de ser de esta clasel, por otro lado, el  indice de verosimilitud negativa indica una disminución de entrono al 15\% en la probabilidad de que un registro que se predice de otra calse sea de clase Astrocytoma. 
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESULTADO
+
+\subsubsection{Fichero breast\_gse45827.csv}
+
+\begin{table}[htp]
+    \small
+    \centering
+    \begin{tabularx}{\columnwidth}{Y Y}
+        ACC       & AUAC    \\\hline
+        $0.914$   & $0.917$ \\\hline
+    \end{tabularx}
+    \caption{Resultados globales para el fichero breast\_gse45827.csv.}
+    \label{tab:12}
+\end{table}
+
+\begin{table}[htp]
+    \small
+    \centering
+    \begin{tabularx}{\columnwidth}{l Y Y Y Y Y Y}
+                &  Her          & Basal     & Cell\_line & Luminal\_a & Luminal\_b & Normal    \\\hline
+        TPR     &  $0.900$      & $0.927$   & $1.000$    & $0.862$    & $0.933$    & $0.857$   \\\hline
+        TNR     &  $0.967$      & $0.982$   & $1.000$    & $0.984$    & $0.959$    & $1.000$   \\\hline
+        PPV     &  $0.871$      & $0.950$   & $1.000$    & $0.926$    & $0.848$    & $1.000$   \\\hline
+        NPV     &  $0.975$      & $0.973$   & $1.000$    & $0.968$    & $0.983$    & $0.993$   \\\hline
+        LR+     &  $27.225$     & $50.976$  & -          & $52.586$   & $22.587$   & -         \\\hline
+        LR-     &  $0.103$      & $0.075$   & $0.000$    & $0.140$    & $0.070$    & $0.143$   \\\hline
+        DOR     &  $263.250$    & $684.000$ & -          & $375.000$  & $324.800$  & -         \\\hline
+        YI      &  $0.867$      & $0.909$   & $1.000$    & $0.846$    & $0.892$    & $0.857$   \\\hline
+        MCC     &  $0.856$      & $0.916$   & $1.000$    & $0.869$    & $0.861$    & $0.923$   \\\hline
+        DP      &  $1.334$      & $1.563$   & -          & $1.419$    & $1.385$    & -         \\\hline
+        $F_{1}$ &  $0.885$      & $0.938$   & $1.000$    & $0.893$    & $0.889$    & $0.923$   \\\hline
+        MK      &  $0.846$      & $0.923$   & $1.000$    & $0.894$    & $0.832$    & $0.993$   \\\hline
+        BCR     &  $0.933$      & $0.954$   & $1.000$    & $0.923$    & $0.946$    & $0.929$   \\\hline
+        GM      &  $0.933$      & $0.954$   & $1.000$    & $0.921$    & $0.946$    & $0.926$   \\\hline
+        OP      &  $0.918$      & $0.938$   & $1.000$    & $0.894$    & $0.940$    & $0.916$   \\\hline
+        Jaccard &  $0.794$      & $0.884$   & $1.000$    & $0.806$    & $0.800$    & $0.857$   \\\hline
+    \end{tabularx}
+    \caption{Resultados agrupados por clase para el fichero breast\_gse45827.csv.}
+    \label{tab:13}
+\end{table}
+
+\clearpage
+
+\begin{figure}[htp]
+    \centering
+     \subfloat[Curva ROC]{
+       \includegraphics[width=0.4\textwidth]{breast_gse45827_ROC.PNG}}
+     \subfloat[Curva A]{
+       \includegraphics[width=0.4\textwidth]{breast_gse45827_A_CURVE.PNG}}
+    \caption{Curvas obtenidas para el fichero breast\_gse45827.csv.}
+    \label{fig:11}
 \end{figure}
 
 \bigbreak
@@ -64,28 +136,241 @@
 
 \clearpage
 
-\subsubsection{breast\_gse45827.csv}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESULTADO
+
+\subsubsection{Fichero colorectal\_gse21510.csv}
 
 \begin{table}[htp]
     \small
     \centering
     \begin{tabularx}{\columnwidth}{Y Y}
         ACC       & AUAC    \\\hline
-        $0.757$   & $0.764$ \\\hline
+        $0.980$   & $0.983$ \\\hline
     \end{tabularx}
-    \caption{Resultados globales para el fichero breast\_gse45827.csv.}
-    \label{tab:7}
+    \caption{Resultados globales para el fichero colorectal\_gse21510.csv.}
+    \label{tab:14}
 \end{table}
 
 \begin{table}[htp]
     \small
     \centering
-    \begin{tabularx}{\columnwidth}{X X X X X X X}
-                &  Her  & Basal & Cell\_line & Luminal\_a & Luminal\_b & Normal    \\\hline
-        TPR     &       & $0.1$ &           &           &           &           \\\hline
+    \begin{tabularx}{\columnwidth}{l Y Y Y}
+                &  Normal\_homogenized  & Tumoral\_lcm  & Tumoral\_homogenized  \\\hline
+        TPR     &  $0.920$              & $1.000$       & $0.944$               \\\hline
+        TNR     &  $1.000$              & $0.930$       & $1.000$               \\\hline
+        PPV     &  $1.000$              & $0.972$       & $1.000$               \\\hline
+        NPV     &  $0.984$              & $1.000$       & $0.992$               \\\hline
+        LR+     &  -                    & $14.333$      & -                     \\\hline
+        LR-     &  $0.080$              & $0.000$       & $0.056$               \\\hline
+        DOR     &  -                    & -             & -                     \\\hline
+        YI      &  $0.920$              & $0.930$       & $0.944$               \\\hline
+        MCC     &  $0.951$              & $0.951$       & $0.968$               \\\hline
+        DP      &  -                    & -             & -                     \\\hline
+        $F_{1}$ &  $0.958$              & $0.986$       & $0.971$               \\\hline
+        MK      &  $0.984$              & $0.972$       & $0.992$               \\\hline
+        BCR     &  $0.960$              & $0.965$       & $0.972$               \\\hline
+        GM      &  $0.959$              & $0.964$       & $0.972$               \\\hline
+        OP      &  $0.945$              & $0.943$       & $0.965$               \\\hline
+        Jaccard &  $0.920$              & $0.972$       & $0.944$               \\\hline
     \end{tabularx}
-    \caption{Resultados agrupados por clase para el fichero breast\_gse45827.csv.}
-    \label{tab:8}
+    \caption{Resultados agrupados por clase para el fichero colorectal\_gse21510.csv.}
+    \label{tab:15}
 \end{table}
 
 \clearpage
+
+\begin{figure}[htp]
+    \centering
+     \subfloat[Curva ROC]{
+       \includegraphics[width=0.4\textwidth]{colorectal_gse21510_ROC.PNG}}
+     \subfloat[Curva A]{
+       \includegraphics[width=0.4\textwidth]{colorectal_gse21510_A_CURVE.PNG}}
+    \caption{Curvas obtenidas para el fichero colorectal\_gse21510.csv.}
+    \label{fig:12}
+\end{figure}
+
+\bigbreak
+
+\lipsum[1]
+
+\clearpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESULTADO
+
+\subsubsection{Fichero breast\_gse42568.csv}
+
+\begin{table}[htp]
+    \small
+    \centering
+    \begin{tabularx}{\columnwidth}{Y Y}
+        ACC       & AUAC    \\\hline
+        $0.991$   & $0.996$ \\\hline
+    \end{tabularx}
+    \caption{Resultados globales para el fichero breast\_gse42568.csv.}
+    \label{tab:16}
+\end{table}
+
+\begin{table}[htp]
+    \small
+    \centering
+    \begin{tabularx}{\columnwidth}{l Y Y}
+                &  Normal               & Tumoral       \\\hline
+        TPR     &  $0.933$              & $1.000$       \\\hline
+        TNR     &  $1.000$              & $0.933$       \\\hline
+        PPV     &  $1.000$              & $0.990$       \\\hline
+        NPV     &  $0.990$              & $1.000$       \\\hline
+        LR+     &  -                    & $15.000$      \\\hline
+        LR-     &  $0.067$              & $0.000$       \\\hline
+        DOR     &  -                    & -             \\\hline
+        YI      &  $0.933$              & $0.933$       \\\hline
+        MCC     &  $0.961$              & $0.961$       \\\hline
+        DP      &  -                    & -             \\\hline
+        $F_{1}$ &  $0.966$              & $0.995$       \\\hline
+        MK      &  $0.990$              & $0.990$       \\\hline
+        BCR     &  $0.967$              & $0.967$       \\\hline
+        GM      &  $0.966$              & $0.966$       \\\hline
+        OP      &  $0.957$              & $0.957$       \\\hline
+        Jaccard &  $0.933$              & $0.990$       \\\hline
+    \end{tabularx}
+    \caption{Resultados agrupados por clase para el fichero breast\_gse42568.csv.}
+    \label{tab:17}
+\end{table}
+
+\clearpage
+
+\begin{figure}[htp]
+    \centering
+     \subfloat[Curva ROC]{
+       \includegraphics[width=0.4\textwidth]{breast_gse42568_ROC.PNG}}
+     \subfloat[Curva A]{
+       \includegraphics[width=0.4\textwidth]{breast_gse42568_A_CURVE.PNG}}
+    \caption{Curvas obtenidas para el fichero breast\_gse42568.csv.}
+    \label{fig:13}
+\end{figure}
+
+\bigbreak
+
+\lipsum[1]
+
+\clearpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESULTADO
+
+\subsubsection{Fichero gastric\_gse79973.csv}
+
+\begin{table}[htp]
+    \small
+    \centering
+    \begin{tabularx}{\columnwidth}{Y Y}
+        ACC       & AUAC    \\\hline
+        $0.900$   & $0.921$ \\\hline
+    \end{tabularx}
+    \caption{Resultados globales para el fichero gastric\_gse79973.csv.}
+    \label{tab:18}
+\end{table}
+
+\begin{table}[htp]
+    \small
+    \centering
+    \begin{tabularx}{\columnwidth}{l Y Y}
+                &  Adenocarcinoma       & Normal        \\\hline
+        TPR     &  $0.900$              & $0.900$       \\\hline
+        TNR     &  $0.900$              & $0.900$       \\\hline
+        PPV     &  $0.900$              & $0.900$       \\\hline
+        NPV     &  $0.900$              & $0.900$       \\\hline
+        LR+     &  $9.000$              & $9.000$       \\\hline
+        LR-     &  $0.111$              & $0.111$       \\\hline
+        DOR     &  $81.000$             & $81.000$      \\\hline
+        YI      &  $0.800$              & $0.800$       \\\hline
+        MCC     &  $0.800$              & $0.800$       \\\hline
+        DP      &  $1.052$              & $1.052$       \\\hline
+        $F_{1}$ &  $0.900$              & $0.900$       \\\hline
+        MK      &  $0.800$              & $0.800$       \\\hline
+        BCR     &  $0.900$              & $0.900$       \\\hline
+        GM      &  $0.900$              & $0.900$       \\\hline
+        OP      &  $0.900$              & $0.900$       \\\hline
+        Jaccard &  $0.818$              & $0.818$       \\\hline
+    \end{tabularx}
+    \caption{Resultados agrupados por clase para el fichero gastric\_gse79973.csv.}
+    \label{tab:19}
+\end{table}
+
+\clearpage
+
+\begin{figure}[htp]
+    \centering
+     \subfloat[Curva ROC]{
+       \includegraphics[width=0.4\textwidth]{gastric_gse79973_ROC.PNG}}
+     \subfloat[Curva A]{
+       \includegraphics[width=0.4\textwidth]{gastric_gse79973_A_CURVE.PNG}}
+    \caption{Curvas obtenidas para el fichero gastric\_gse79973.csv.}
+    \label{fig:14}
+\end{figure}
+
+\bigbreak
+
+\lipsum[1]
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESULTADO
+
+\subsubsection{Fichero leukemia\_gse14317.csv}
+
+\begin{table}[htp]
+    \small
+    \centering
+    \begin{tabularx}{\columnwidth}{Y Y}
+        ACC       & AUAC    \\\hline
+        $0.920$   & $0.938$ \\\hline
+    \end{tabularx}
+    \caption{Resultados globales para el fichero leukemia\_gse14317.csv.}
+    \label{tab:20}
+\end{table}
+
+\begin{table}[htp]
+    \small
+    \centering
+    \begin{tabularx}{\columnwidth}{l Y Y}
+                &  Atl                  & Normal        \\\hline
+        TPR     &  $1.000$              & $0.714$       \\\hline
+        TNR     &  $0.714$              & $1.000$       \\\hline
+        PPV     &  $0.900$              & $1.000$       \\\hline
+        NPV     &  $1.000$              & $0.900$       \\\hline
+        LR+     &  $3.500$              & -             \\\hline
+        LR-     &  $0.000$              & $0.286$       \\\hline
+        DOR     &  -                    & -             \\\hline
+        YI      &  $0.714$              & $0.714$       \\\hline
+        MCC     &  $0.802$              & $0.802$       \\\hline
+        DP      &  -                    & -             \\\hline
+        $F_{1}$ &  $0.947$              & $0.833$       \\\hline
+        MK      &  $0.900$              & $0.900$       \\\hline
+        BCR     &  $0.857$              & $0.857$       \\\hline
+        GM      &  $0.845$              & $0.845$       \\\hline
+        OP      &  $0.753$              & $0.753$       \\\hline
+        Jaccard &  $0.900$              & $0.714$       \\\hline
+    \end{tabularx}
+    \caption{Resultados agrupados por clase para el fichero leukemia\_gse14317.csv.}
+    \label{tab:21}
+\end{table}
+
+\clearpage
+
+\begin{figure}[htp]
+    \centering
+     \subfloat[Curva ROC]{
+       \includegraphics[width=0.4\textwidth]{leukemia_gse14317_ROC.PNG}}
+     \subfloat[Curva A]{
+       \includegraphics[width=0.4\textwidth]{leukemia_gse14317_A_CURVE.PNG}}
+    \caption{Curvas obtenidas para el fichero leukemia\_gse14317.csv.}
+    \label{fig:15}
+\end{figure}
+
+\bigbreak
+
+\lipsum[1]
+
+\clearpage
+

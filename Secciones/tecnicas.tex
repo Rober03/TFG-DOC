@@ -2,18 +2,19 @@
 
 %En este punto, se puede hablar de conjunto de test, train etc TO DO
 
-En este apartado se realiza una revisión de los principales métodos
-
-
-Los modelos predictivos en los que se centra esta sección son modelos de clasificación en los que se tiene un número discreto de posibles valores para la clase objetivo, por ejemplo, un conjunto de datos con registros de emails, con una clase que marca cada registro como spam o no spam. El modelo predictivo en este caso está entrenado para predecir un valor u otro de esta clase en función del resto de atributos. En esta sección se ofrece un análisis de las diferentes técnicas tanto analíticas como gráficas para la evaluación de modelos predictivos.
-
-\subsection{Matriz de confusión}
-
-La matriz de confusión es una herramienta que se suele aplicar en las primeras fases del análisis, permite organizar los indicadores de rendimiento obtenidos para un modelo predictivo, en general, ofrece un recuento de los registros en base a la clase real de cada registro y a la predicción que realiza el modelo. La matriz de confusión se define como una matriz cuadrada de $NxN$ elementos donde $N$ es el número de clases presentes en el modelo, cada fila de la matriz de confusión define la clase real del registro y cada columna define la clase predicha por el modelo o viceversa.
+El estudio que se realiza en esta sección es sobre modelos predictivos de clasificación, el objetivo de un modelo de clasificación es predecir la clase de un registro en base al resto de atributos. Los modelos de clasificación binaria, son modelos predictivos en los que el hay dos clases, de forma genérica se definen las dos clases como clase Positiva y clase Negativa. Los modelos de clasificación multi etiqueta se definen como modelos de clasificación con mas de dos clases. La evaluación del modelo corresponde con una de las últimas fases del proceso de predictivo, en esta fase se necesita un conjunto de datos en el que por cada registro se tenga la clase real y la clase que predice el modelo.
 
 \bigbreak
 
-En la matriz de confusión se definen cuatro indicadores, estos indicadores ofrecen una visión general del rendimiento del modelo y son la base para el cálculo de algunas métricas más avanzadas que se tratan en secciones posteriores de este documento. Los indicadores definidos en la matriz de confusión son:
+En esta sección se propone una revisión de los principales métodos para la evaluación de modelos predictivos. El objetivo principal es introducir cada un de los métodos, también se incluye un análisis de cada método en que se trata cuando aplicar el método, la interpretación de los resultados, si el método solo es valido para modelos de clasificación binaria, si es sensible al balance entre el número de instancias de cada clases, etc.
+
+\subsection{Matriz de confusión}
+
+La matriz de confusión es una herramienta que se suele aplicar en las primeras fases del análisis, permite organizar los indicadores de rendimiento obtenidos para un modelo predictivo, en general, ofrece un recuento de los registros en base a la clase real de cada registro y a la predicción que realiza el modelo. La matriz de confusión se define como una matriz cuadrada de $NxN$ elementos donde $N$ es el número de clases del modelo, en cada fila de la matriz se define la clase real del registro y en cada columna se define la clase predicha por el modelo o viceversa.
+
+\bigbreak
+
+En la matriz de confusión se definen cuatro indicadores, estos indicadores ofrecen una visión general del rendimiento del modelo y son la base para el cálculo de algunos métodos más avanzados que se tratan en secciones posteriores de este documento. Los indicadores definidos en la matriz de confusión son:
 
 \begin{itemize}
     \item Verdadero Positivo: Registros de clase real positiva y en los que la predicción se hace correctamente.
@@ -22,9 +23,7 @@ En la matriz de confusión se definen cuatro indicadores, estos indicadores ofre
     \item Falso Positivo: Registros de clase real negativa y en los que la predicción se hace incorrectamente.
 \end{itemize}
 
-\pagebreak
-
-La matriz de confusión se define de forma general para modelos de clasificación multi etiqueta, sin embargo, a la hora de obtener los indicadores de rendimiento para modelos de clasificación con más de dos clases tenemos que definir $N$ matrices una por cada clase del modelo, en cada matriz se define positiva una de las clases y se agrupan como negativas el resto, de esta forma, el estudio que se realiza a partir de las diferentes sub matrices ya no es un estudio global, sino que es específico para cada clase concreta.
+La matriz de confusión se define de forma general para modelos de clasificación multi etiqueta, sin embargo, a la hora de obtener los indicadores de rendimiento para modelos de clasificación con más de dos clases tenemos que definir $N$ matrices una por cada clase del modelo. En cada matriz se define positiva una de las clases y se agrupan como negativas el resto, de esta forma, el estudio que se realiza a partir de las diferentes sub matrices ya no es un estudio global, sino que es específico para cada clase concreta.
 
 \begin{table}[htp]
     \small
@@ -39,8 +38,6 @@ La matriz de confusión se define de forma general para modelos de clasificació
     \label{tab:1}
 \end{table}
 
-\clearpage
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSECCION METODOS ESTADISTICOS
 
 \subsection{Métodos Analíticos}
@@ -49,7 +46,7 @@ La matriz de confusión se define de forma general para modelos de clasificació
 
 \subsubsection{Exactitud}
 
-La exactitud es una de las medidas más utilizadas a la hora de establecer la calidad general de un modelo predictivo. Este método representa la tasa de acierto que se obtiene al aplicar un modelo predictivo sobre un conjunto de \textit{test}. El cálculo de esta medida se hace en base a los cuatro indicadores de rendimiento definidos en la matriz de confusión. El resultado que ofrece se encuentra en el intervalo de cero a uno, los valores próximos a cero corresponden a modelos con una baja tasa de acierto, mientras que los valores próximos a uno corresponden a modelos con una alta tasa de acierto. En términos generales los modelos que obtienen un resultado inferior a media unidad son poco prometedores, en promedio tienen una tasa de aciertos inferior a la de un modelo de clasificación aleatoria. Por último, cabe destacar que es un método independiente del número de clases, se puede aplicar tanto a modelos de clasificación binaria como a modelos de clasificación multi etiqueta.
+La exactitud \cite{tharwat_2018} es una de las medidas más utilizadas a la hora de establecer la calidad general de un modelo predictivo, se define como un indicador que representa la tasa de acierto del modelo sobre instancias positivas y negativas. El cálculo de esta medida se hace en base a los cuatro indicadores de rendimiento definidos en la matriz de confusión. Hay que tener en cuenta que la exactitud es un método sensible a grandes diferencias entre el numero de instancias positivas y negativas, en la ecuación \ref{eq:ACC_BAL} se puede comprobar que al variar el valor de $\alpha$ la igualdad no se mantiene. El resultado que se obtiene al aplicar el método se encuentra en el intervalo de cero a uno, los valores próximos a cero corresponden a modelos con una baja tasa de acierto, mientras que los valores próximos a uno indican una alta tasa de acierto. En términos generales, los modelos que obtienen un resultado inferior a media unidad son poco prometedores, en promedio tienen una tasa de acierto inferior a la de un modelo de clasificación aleatoria. Por último, cabe destacar que la exactitud es un método independiente del número de clases, se puede aplicar tanto a modelos de clasificación binaria como a modelos de clasificación multi etiqueta.
 
 \bigbreak
 
@@ -58,11 +55,19 @@ La exactitud es una de las medidas más utilizadas a la hora de establecer la ca
     \label{eq:ACC}  
 \end{equation}
 
+\bigbreak
+
+\begin{equation}
+    \frac{TP+TN}{TP+TN+FP+FN}\neq \frac{ \alpha \cdot TP+TN}{\alpha \cdot TP+TN+FP+ \alpha \cdot FN}
+    \label{eq:ACC_BAL}  
+\end{equation}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION SENSIBILIDAD Y ESPECIFICIDAD
 
 \subsubsection{Sensibilidad y Especificidad}
 
-La sensibilidad y la especificidad son dos métodos complementarios que ofrecen una representación de la exactitud del modelo separando los registros en base a la clase real. La sensibilidad es un método que mide la tasa de acierto del modelo sobre instancias de clase positiva. De igual forma, la especificidad mide la tasa de acierto del modelo sobre instancias de clase negativa. En ambos casos el cálculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión. El resultado obtenido se encuentra en el intervalo de cero a uno, los valores próximos a cero indican una baja tasa de acierto, mientras que los valores próximos a uno indican una alta tasa de acierto. A diferencia de la exactitud estos dos métodos son sensibles al número de clases del modelo, solo se pueden aplicar a modelos de clasificación binaria. Para su aplicación a modelos de clasificación multi etiqueta se puede aplicar el método a una clase concreta que definimos como positiva, mientras que el resto de clases se agrupan como una única clase que denominamos negativa.
+La sensibilidad y la especificidad \cite{Florkowski2008}\cite{tharwat_2018} son dos métodos complementarios que ofrecen una representación de la exactitud del modelo separando los registros en base a la clase. La sensibilidad es un método que mide la tasa de acierto del modelo sobre instancias de clase positiva. De igual forma, la especificidad mide la tasa de acierto del modelo sobre instancias de clase negativa. La separación que se establece en base a la clase implica que tanto la sensibilidad como la especificidad se pueden aplicar de forma independiente a la variación del número de instancias de cada clase. En ambos casos el cálculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión. El resultado obtenido se encuentra en el intervalo de cero a uno, los valores próximos a cero indican una baja tasa de acierto, mientras que los valores próximos a uno indican una alta tasa de acierto. A diferencia de la exactitud estos dos métodos son sensibles al número de clases del modelo, están diseñados para su aplicación únicamente a modelos de clasificación binaria.
 
 \bigbreak
 
@@ -82,7 +87,7 @@ La sensibilidad y la especificidad son dos métodos complementarios que ofrecen 
 
 \subsubsection{Precisión y Precisión Inversa}
 
-La precisión y la precisión inversa son métodos que calculan la exactitud del modelo en base a la predicción que se realiza. La precisión es un método que mide la tasa de aciertos del modelo sobre instancias que se predicen positivas. De la misma forma, la precisión inversa se define como la tasa de aciertos del modelo sobre instancias que se predicen negativas. De nuevo, el cálculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión. También, son métodos sensibles al número de clases que se definen en el modelo; de hecho, solo se pueden aplicar a modelos de clasificación binaria. Para su aplicación a modelos de clasificación multi etiqueta es necesario definir una clase en específico como positiva, mientras que el resto de clases se agrupan como clase negativa.
+La precisión y la precisión inversa \cite{tharwat_2018} son métodos que miden la exactitud del modelo en base a la predicción que realiza. La precisión es un método que mide la tasa de acierto del modelo sobre instancias que se predicen positivas. De la misma forma, la precisión inversa se define como la tasa de aciertos del modelo sobre instancias que se predicen negativas. Los métodos se ven afectados al aumentar considerablemente el numero de instancias de una determinada clase. El cálculo se hace a partir de los indicadores de rendimiento definidos en la matriz de confusión, en ambos casos el resultado obtenido indica mejores tasas de acierto cuanto mas se aproxime a la unidad. Los métodos son sensibles al número de clases que se definen en el modelo, su aplicación es exclusiva para modelos de clasificación binaria.
 
 \bigbreak
 
@@ -124,7 +129,7 @@ Tenemos dos tipos de razones de verosimilitud, la razón de verosimilitud positi
 
 \bigbreak
 
-La razón de verosimilitud positiva es una medida que toma valores mayores que la unidad, ofrece un mejor indicador cuanto mayor sea el valor que toma. Por el contrario, la razón de verosimilitud negativa se encuentra en el rango de valores de cero a uno, ofrece un mejor indicador cuanto más próximo al cero se encuentre. En ambos casos los valores próximos a la unidad indican que el modelo no tiene capacidad discriminatoria, es decir, la predicción que se realiza no varía la probabilidad de pertenecer a la clase positiva. En la Tabla \ref{tab:2} podemos ver una aproximación de la variación que se produce en la probabilidad de pertenecer a la clase positiva para diferentes razones de verosimilitud.
+La razón de verosimilitud positiva es una medida que toma valores mayores que la unidad, ofrece un mejor indicador cuanto mayor sea el valor que toma. Por el contrario, la razón de verosimilitud negativa se encuentra en el rango de valores de cero a uno, ofrece un mejor indicador cuanto más próximo al cero se encuentre. En ambos casos los valores próximos a la unidad indican que el modelo no tiene capacidad discriminatoria, es decir, la predicción que se realiza no varía la probabilidad de pertenecer a la clase positiva. En la Tabla \ref{tab:2} podemos ver una aproximación de la variación en la probabilidad de pertenecer a la clase positiva para diferentes razones de verosimilitud.
 
 \bigbreak
 
@@ -149,7 +154,7 @@ La razón de verosimilitud positiva es una medida que toma valores mayores que l
 \bigbreak
 %% CAMBIAR NORMAL POR TUMORAL
 
-En la Tabla \ref{tab:3} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. La clase Normal presenta un LR+ de 4 unidades, esto implica un aumento moderado (entre un 15\% y un 30\%) de la probabilidad que tiene un registro de pertenecer a la clase Normal cuando el modelo predice Normal el registro. Por otro lado, la clase Normal presenta un LR- de 0.4 unidades esto supone de nuevo una disminución moderada (entre un 15\% y un 30\%) de la probabilidad que tiene un registro de pertenecer a la clase Normal cuando el modelo predice Tumoral el registro.
+%En la Tabla \ref{tab:3} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. La clase Normal presenta un LR+ de 4 unidades, esto implica un aumento moderado (entre un 15\% y un 30\%) de la probabilidad que tiene un registro de pertenecer a la clase Normal cuando el modelo predice Normal el registro. Por otro lado, la clase Normal presenta un LR- de 0.4 unidades esto supone de nuevo una disminución moderada (entre un 15\% y un 30\%) de la probabilidad que tiene un registro de pertenecer a la clase Normal cuando el modelo predice Tumoral el registro.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION DOR
 
@@ -166,7 +171,7 @@ El DOR \cite{dor_2003} es un método que surge a partir de la necesidad de tener
 
 \bigbreak
 
-En la Tabla \ref{tab:4} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. La clase Tumoral presenta un DOR de 10 unidades, esto implica que para un registro que se predice Tumoral la probabilidad de ser Tumoral es 10 veces mayor que la de ser Normal.
+%En la Tabla \ref{tab:4} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. La clase Tumoral presenta un DOR de 10 unidades, esto implica que para un registro que se predice Tumoral la probabilidad de ser Tumoral es 10 veces mayor que la de ser Normal.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION ÍNDICE YOUDEN
 
@@ -182,7 +187,7 @@ El índice de Youden \cite{Youden1950} se define como la suma de la sensibilidad
 
 \bigbreak
 
-En la Tabla \ref{tab:5} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. Este caso práctico muestra un índice de Youden de 0.5 esto implica que la predicción que hace el modelo tiene una capacidad discriminatoria entre clases aceptable.
+%En la Tabla \ref{tab:5} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. Este caso práctico muestra un índice de Youden de 0.5 esto implica que la predicción que hace el modelo tiene una capacidad discriminatoria entre clases aceptable.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSUBSECCION COEFICIENTE DE CORRELACIÓN DE MATTHEWS
@@ -200,7 +205,7 @@ El coeficiente de correlación de Matthews \cite{Matthews1975} es un método que
 
 \bigbreak
 
-En la Tabla \ref{tab:5} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. El coeficiente de correlación de Matthews que se obtiene en este caso para la clase Tumoral es de 0.507, a partir de la Tabla \ref{tab:3} se determina que existe una fuerte correlación entre clase y predicción.
+%En la Tabla \ref{tab:5} tenemos los resultados obtenidos para el fichero de datos breast\_gse26910.csv incluido en el apartado de experimentación. El coeficiente de correlación de Matthews que se obtiene en este caso para la clase Tumoral es de 0.507, a partir de la Tabla \ref{tab:3} se determina que existe una fuerte correlación entre clase y predicción.
 
 \bigbreak
 
@@ -248,6 +253,7 @@ La medida F se define como la media harmónica entre sensibilidad y precisión. 
 
 \subsubsection{Markedness}
 
+El \textit{markedness} es un indicador que aplica de forma conjunta las medidas de precisión y precisión inversa, esto implica que el método es sensible a variaciones en el numero de instancias de cada clase. El resultado que se obtiene al aplicar el método se encuentra en el intervalo $[-1, 1]$. La aplicación del método es exclusiva para modelos de clasificación binaria.  
 
 
 \bigbreak
@@ -316,5 +322,83 @@ El índice de Jaccard es el cociente de dividir la intersección El resultado qu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUBSECCION METODOS GRÁFiCOS
 
 \subsection{Métodos Gráficos}
+
+\subsubsection{Curva ROC}
+
+La curva ROC \cite{ROC2006} es uno de los principales métodos de representación gráfica, permite evaluar la calidad predictiva en modelos de clasificación binaria. La gráfica ofrece una representación del acierto sobre el error en la predicción de registros positivos. La representación del método se hace a partir de los indicadores de sensibilidad y especificidad, esto implica que el método es completamente independiente al número de registros de cada clase.
+
+\bigbreak
+
+La aplicación de un modelo predictivo sobre un conjunto de datos determina la probabilidad que tienen los diferentes registros de pertenecer a cada clase. El modelo asigna de forma automática a cada registro la clase que haya obtenido una probabilidad más alta. La representación de la curva ROC se basa en la variación del umbral de aceptación que establece el porcentaje de probabilidad que se necesita para considerar positivo un registro. El umbral de aceptación marca una frontera de decisión que separa la predicción de los registros a partir del porcentaje asignado por el modelo. La predicción que se realiza depende del umbral de aceptación, un umbral del 0\% establece que todos los registros son negativos, un umbral del 100\% clasifica todos los registros como positivos. La curva ROC se calcula en base a los indicadores de sensibilidad y especificidad que se obtienen para distintos umbrales de aceptación. La cantidad de umbrales de aceptación que se calculan influye en la representación de la curva, la situación ideal es aquella en la que se calculan todos los umbrales que generan una matriz de confusión diferente. El calculo de los diferentes umbrales de aceptación se puede hacer a partir de los porcentajes de probabilidad asignados por el modelo.
+
+\bigbreak
+
+La curva ROC representa en el eje de ordenadas la tasa de acierto en la predicción, mientras que en el eje de abscisas representa la tasa de error en la predicción. Los puntos que se encuentran por encima de la diagonal secundaria representan un umbral de aceptación para el que se logra una tasa de acierto mayor a la tasa de error. El punto $(0, 1)$ es el punto de clasificación perfecta, cuando una curva ROC representa un punto en el $(0, 1)$ implica que la sensibilidad y la especificidad es de una unidad. 
+
+\bigbreak
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[scale=0.45]{leukemia_gse14317_ROC.PNG}
+    \caption{Curva ROC obtenida para el fichero de datos leukemia\_gse14317.csv.}
+    \label{fig:5}
+\end{figure}
+
+
+
+La interpretación gráfica que se hace de la curva ROC no permite comparar diferentes curvas, especialmente en determinados casos en los que el gráfico presenta intervalos con una curva por encima de otra e intervalos en los que esto sucede al revés. La solución que se propone es utilizar el área bajo la curva ROC como un indicador cuantitativo del acierto del modelo. La definición de la curva ROC implica un aumento del área bajo la curva cuanto mayor sea la tasa de acierto sobre la tasa de error, el área bajo la curva ROC para un modelo con una clasificación perfecta es de una unidad, mientras que el área bajo la curva ROC para un modelo que clasifica de forma incorrecta todos los registros es de cero.
+
+\bigbreak
+
+La Figura \ref{fig:5} representa la curva ROC obtenida para un modelo de clasificación binaria. La disposición gráfica de ambas curvas indica que el modelo presenta una notable capacidad discriminatoria entre clases. El área bajo la curva ROC de $0.857$, también indica que el modelo tiene una muy buena tasa de acierto sobre error.
+
+\bigbreak
+
+Existen diferentes métodos para calcular el área bajo la curva, en la sección de experimentación se ha utilizado la regla del trapecio para el calculo de la integral definida entre cero y uno. El método del trapecio consiste en el calculo de los trapecios que forman cada par de puntos consecutivos con la curva. En la ecuación \ref{eq:trapecio} se define el área bajo la curva a partir de la regla del trapecio.
+
+\bigbreak
+
+\begin{equation}
+    AUC = \int_{a}^{b} f(x) \,dx = \sum_{k=1}^{N} \frac{f(x_{k-1})+f(x_{k})}{2} \cdot \frac{b-a}{N}
+    \label{eq:trapecio}
+\end{equation}
+
+\bigbreak
+
+La curva ROC no esta definida para su aplicación en modelos de clasificación multi etiqueta, en estos casos una alternativa es el calculo de una curva ROC por cada una de las etiquetas. Las diferentes curvas se calculan considerando positiva una de las clases y el resto negativas, esto implica un aumento en la complejidad del gráfico, se pasa de un gráfico en el que se representa una sola curva a un gráfico con una curva por cada clase del modelo.
+
+\clearpage
+
+\subsubsection{Curva PR}
+
+La curva PR es un método gráfico que mide el rendimiento de un modelo predictivo a partir de los indicadores de precisión y sensibilidad, esto implica que el método es dependiente del balance entre el número de registros de cada clase. El método fue ideado para su aplicación exclusivamente en modelos de clasificación binaria.
+
+\bigbreak
+
+Para representar las medidas de precisión y sensibilidad se emplea el mismo método utilizado para la curva ROC. La idea consiste en establecer una serie de umbrales de aceptación, los diferentes umbrales definen el porcentaje de probabilidad mínimo para considerar positivo un registro. El objetivo es representar el comportamiento que tiene el modelo ante la variación  del umbral de aceptación. La precisión y la sensibilidad son dos métodos que presentan una proporcionalidad inversa, esto implica que al aumentar uno disminuye el otro y viceversa. Al aumentar la sensibilidad, es decir, al reducir el numero de falsos negativos se establece un umbral de aceptación según el cual todos lo registros son positivos, esto provoca que el numero de falsos positivos aumente y por tanto la precisión disminuya.
+
+\bigbreak
+
+
+La curva PR representa en el eje de ordenadas la precisión y en el eje de abscisas la sensibilidad. La interpretación de al gráfica es algo diferente a la que ofrece la curva ROC. La curva ROC presenta una curva que empieza en el punto $(0, 0)$ y termina en el punto $(1, 1)$, cuanto mas se aproxime la curva al punto $(0, 1)$ mejor será el modelo. La curva PR por el contrario ofrece una curva que comienza en el punto $(0, 1)$ y termina en el punto $(1, 0)$. El comportamiento ideal es aquel en el que la curva pase por el punto $(1, 1)$, en este punto la sensibilidad y la precisión alcanzan el valor de una unidad.
+
+\bigbreak
+
+La curva PR presenta la necesidad de obtener una forma cuantitativa de medir como de bueno es el resultado que ofrece la gráfica. El indicador más utilizado para este propósito es el área bajo la curva PR, el área bajo la curva PR establece mejores indicadores cuento mas se aproxime la curva al punto de clasificación perfecta $(0, 1)$. Es una medida ideal para comparar diferentes modelos y establecer que modelo tiene un mejor comportamiento a partir de la sensibilidad y la precisión. El calculo del área bajo la curva se puede hacer a través de varios métodos, uno de los mas populares el el método del trapecio, la ecuación \ref{eq:trapecio} define el calculo del método.
+
+\bigbreak
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[scale=0.45]{leukemia_gse14317_PR.PNG}
+    \caption{Curva PR obtenida para el fichero de datos leukemia\_gse14317.csv.}
+    \label{fig:6}
+\end{figure}
+
+La definición de la curva PR establece que es método aplicable únicamente a modelos de clasificación binaria, sin embargo, es posible su aplicación a modelos con más de dos clases. La representación que se hace para modelos de clasificación multi etiqueta consiste la generación de una gráfica en la que se incluya una curva por cada una de las clases. En cada curva se considera positiva una de las clases y negativa el resto, la representación que se logra presenta una dificultad mayor a la hora de interpretar los resultados.
+
+\bigbreak
+
+La Figura \ref{fig:6} representa la curva PR obtenida para un modelo de clasificación binaria. La disposición gráfica de ambas curvas indica un buen comportamiento del modelo cuento a tasas de sensibilidad y precisión. El área bajo la curva de $0.950$ para la clase ATL y de $0.897$ para la clase normal indican en general buenas tasas de precisión sobre sensibilidad.
 
 \clearpage
