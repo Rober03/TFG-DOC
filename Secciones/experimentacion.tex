@@ -73,7 +73,7 @@ El escenario de pruebas que se ha definido no se realiza ningún tipo de preproc
 
 \bigbreak
 
-La clase Astrocytoma presenta una sensibilidad baja, tan solo el 50\% de instancias de esta clase se predicen de forma correcta, sin embargo, la probabilidad sube al 80\% cuando se trata de la tasa de acierto que se produce cuando se predice un registro de esta clase. Los índices de verosimilitud verifican la tendencia, por un lado se presenta un aumento de mas del 45\% en la probablilidad que que tiene un registro que se predice de clase Astrocytoma de ser de esta clasel, por otro lado, el  indice de verosimilitud negativa indica una disminución de entrono al 15\% en la probabilidad de que un registro que se predice de otra calse sea de clase Astrocytoma. 
+La clase Astrocytoma presenta una sensibilidad baja, tan solo el 50\% de instancias de esta clase se predicen de forma correcta, sin embargo, la probabilidad sube al 80\% cuando se trata de la tasa de acierto en la predicción de esta clase. Los índices de verosimilitud verifican la tendencia, por un lado se presenta un aumento de mas del 45\% en la probabilidad que que tiene un registro que se predice de clase Astrocytoma de ser de esta clase, por otro lado, el  índice de verosimilitud negativa indica una disminución de entrono al 15\% en la probabilidad de que un registro que se predice de otra clase sea de clase Astrocytoma. El índice de correlación de Matthews es de $0.561$ esto indica una notable correlación entre clase y predicción. El método OP penaliza latas
 
 \clearpage
 
@@ -297,7 +297,7 @@ La clase Astrocytoma presenta una sensibilidad baja, tan solo el 50\% de instanc
     \label{tab:19}
 \end{table}
 
-\clearpage
+\bigbreak
 
 \begin{figure}[htp]
     \centering
@@ -309,9 +309,10 @@ La clase Astrocytoma presenta una sensibilidad baja, tan solo el 50\% de instanc
     \label{fig:14}
 \end{figure}
 
-\bigbreak
 
-\lipsum[1]
+La predicción que se realiza a partir de este fichero de datos ofrece unos indicadores de calidad simétricos para ambas clases. La exactitud es de $0.900$ puntos, mientras que el área bajo la curva-A es de $0.921$, esto supone un aumento leve del área bajo la curva en $0.21$ puntos. La sensibilidad, la especificidad, la precisión y la precisión inversa ofrecen el mismo resultado $0.900$, esto indica que los registros de ambas clases, así como, la predicción que se realiza sobre las diferente clases tienen una tasa de acierto del 90\%. EL índice de verosimilitud positiva indica un aumento del 40\% en la probabilidad de que la predicción sea correcta. El índice de verosimilitud negativa indica una disminución del 45\% en la probabilidad de que la predicción se haga de forma incorrecta. El valor de $0.8$ en el indice YI establece una buena capacidad de predicción a partir de la sensibilidad y la especificidad. El coeficiente de correlación de Matthews según la Tabla \ref{tab:3} indica un fuerte grado de correlación entre la clase y la predicción. El DP establece que el modelo presenta una capacidad discriminatoria limitada.
+
+La representación gráfica de la curva ROC ofrece una visión en la que 
 
 \clearpage
 
@@ -356,7 +357,7 @@ La clase Astrocytoma presenta una sensibilidad baja, tan solo el 50\% de instanc
     \label{tab:21}
 \end{table}
 
-\clearpage
+\bigbreak
 
 \begin{figure}[htp]
     \centering
@@ -368,9 +369,18 @@ La clase Astrocytoma presenta una sensibilidad baja, tan solo el 50\% de instanc
     \label{fig:15}
 \end{figure}
 
+
+
+La exactitud presenta una tasa de aciertos notablemente buena, de cada 100 registros 92 se predicen de forma correcta. El área bajo la curva-A obtiene un valor muy similar al que ha obtenido la exactitud, la diferencia entre ambos métodos supone un aumento en área bajo la curva-A de $0.18$ puntos sobre la exactitud. La sensibilidad y la especificidad representan buenos indicadores, todos los registros de clase Atl se predicen correctamente, los registros de clase Normal tienen un $71.4$\% de probabilidad de acierto. La precisión y la precisión inversa establecen un $90$\% de probabilidad de acierto cuando se predice un registro Atl, por otro la predicción es siempre correcta cuando se predice Normal un registro. El índice de verosimilitud positiva indica un aumento de entorno al 20\% en la probabilidad que tiene un registro que se predice Atl de ser Atl, la clase Normal no presenta índice de verosimilitud positiva debido a que todos los registros que se precicen Normales son efectivamente de clase Normal. El índice de verosimilitud negativa indica que para registros que se predicen de clase Atl hay una reducción del 30\% en la probabilidad de que sea Normal, por otro lado el modelo siempre acierta cuando predice un registro de clase Normal.
+
 \bigbreak
 
-\lipsum[1]
+El índice YI presenta un resultado que indica una tasa de aciertos notablemante positiva. El coeficiente de correlación de Matthews de $0.802$ establece una fuerte correlación entre clase y predicción. La medida-F de $0.947$ y $0.833$ implica una que el modelo tiene alta tasa de sensibilidad sobre precisión. El BCR y la GM indican una alta tasa de acierto en la predicción en relación con la sensibilidad y la especificidad del modelo. La precisión de optimización ofrece un resultado en el que se esta penalizando la diferencia entre sensibilidad y especificidad, en valor de $0.714$ en sensibilidad y especificidad implica una reducción leve de la exactitud, sin embargo, a pesar de la penalización sigue ofreciendo un buen nivel de exactitud. El índice de Jaccard establece un nivel de similitud notable entre clase y predicción.
+
+\bigbreak
+
+La representación gráfica que ofrece la curva ROC indican que el modelo ofrece una buena tasa de acierto sobre error en la predicción de ambas clases. La interpretación gráfica de la curva-A establece que la calidad del modelo predictivo es muy positiva.
+
 
 \clearpage
 
