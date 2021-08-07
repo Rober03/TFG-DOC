@@ -4,23 +4,23 @@ En este anexo se resumen los pasos a seguir para la puesta a punto del entorno d
 
 \bigbreak
 
-Una vez instalado el entorno de desarrollo, se tiene que abrir el fichero EVAL\_MOD\_PRED.knwf incluido en el material. Es posible que en este punto se pida instalar alguna extensión en este caso se recomienda la instalación por defecto que ofrece Knime. Por último, es necesario guardar el flujo de trabajo en una ruta local.
+Una vez instalado el entorno de desarrollo, se tiene que abrir el fichero EVAL\_MOD\_PRED.knwf incluido en el material. Es posible que en este punto se pida instalar alguna extensión, en este caso se recomienda la instalación por defecto que ofrece Knime. Por último, es necesario guardar el flujo de trabajo en una ruta local.
 
 \bigbreak
 
-Para que funcione el proceso automático es importante crear un directorio en la misma ruta donde previamente se ha guardado el flujo de trabajo. El nombre del directorio tiene que ser DATA, hay que tener en cuenta que el nombre ha de ir en mayúsculas. Otro punto importante a la hora de ejecutar el proceso automático, es cambiar el nombre de la clase en la cabecera de los ficheros de datos, por defecto el nombre que se tiene que poner es CLASS. En el nodo CLASS NAMES, se puede modificar el nombre que se usa por defecto para la clase, este nodo situado en el flujo principal. Para finalizar, se tienen que incluir los ficheros en el directorio DATA.
+Para que funcione el proceso automático es importante crear un directorio en la misma ruta donde previamente se ha guardado el flujo de trabajo. El nombre del directorio tiene que ser DATA, hay que tener en cuenta que el nombre ha de ir en mayúsculas. Otro punto importante a la hora de ejecutar el proceso automático es cambiar el nombre de la clase en la cabecera de los ficheros de datos, por defecto el nombre es CLASS. En el nodo CLASS NAME se puede modificar el nombre que se usa por defecto para la clase, este nodo situado en el flujo principal. Para finalizar, se tienen que incluir los ficheros en el directorio DATA.
 
 \bigbreak
 
 \begin{figure}[htp]
     \centering
     \includegraphics[scale=0.3]{config.png}
-    \caption{Flujo principal, se seleccionan en rojo los componentes con los que tiene que interaccionar el usuario.}
+    \caption{Flujo principal, se señalan en rojo los componentes con los que tiene que interaccionar el usuario.}
     \label{fig:4}
 \end{figure}
 
 \bigbreak
 
-Para la ejecución completa del flujo de trabajo, tenemos que hacer clic en el botón verde situado en la barra de herramientas. Alternativamente se puede utilizar el comando shift+F7 para ejecutar el flujo al completo. Los resultados se presentan mediante el nodo REPORT situado en el flujo principal, se puede acceder al informe haciendo clic derecho sobre el nodo y seleccionando la opción de vista interactiva.
+Para la ejecución completa del flujo de trabajo se tiene que hacer clic en el botón verde situado en la barra de herramientas. Alternativamente se puede utilizar el comando shift+F7 para ejecutar el flujo completo. Los resultados se presentan en el nodo REPORT situado en el flujo principal, se puede acceder al informe haciendo clic derecho sobre el nodo y seleccionando la opción de vista interactiva.
 
 \clearpage

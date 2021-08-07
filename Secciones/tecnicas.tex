@@ -322,11 +322,64 @@ El índice de Jaccard \cite{jaccard1912} se fórmula originalmente como un méto
 
 \subsubsection{Curva ROC}
 
-La curva ROC \cite{ROC2006} es uno de los principales métodos de representación gráfica, permite evaluar la calidad predictiva en modelos de clasificación binaria. La gráfica ofrece una representación del acierto sobre el error en la predicción de registros positivos. La representación del método se hace a partir de los indicadores de sensibilidad y especificidad, esto implica que el método es completamente independiente al número de registros de cada clase.
+La curva ROC \cite{ROC2006} es uno de los principales métodos de representación gráfica, permite evaluar la calidad predictiva para modelos de clasificación binaria. La gráfica ofrece una representación del acierto sobre el error en la predicción de registros positivos. La representación de la curva se obtiene a partir de los indicadores de sensibilidad y especificidad, esto implica que el método es completamente independiente del número de registros de cada clase.
 
 \bigbreak
 
-La aplicación de un modelo predictivo sobre un conjunto de datos determina la probabilidad que tienen los diferentes registros de pertenecer a cada clase. El modelo asigna de forma automática a cada registro la clase que haya obtenido una probabilidad más alta. La representación de la curva ROC se basa en la variación del umbral de aceptación que establece el porcentaje de probabilidad que se necesita para considerar positivo un registro. El umbral de aceptación marca una frontera de decisión que separa la predicción de los registros a partir del porcentaje asignado por el modelo. La predicción que se realiza depende del umbral de aceptación, un umbral del 0\% establece que todos los registros son negativos, un umbral del 100\% clasifica todos los registros como positivos. La curva ROC se calcula en base a los indicadores de sensibilidad y especificidad que se obtienen para distintos umbrales de aceptación. La cantidad de umbrales de aceptación que se calculan influye en la representación de la curva, la situación ideal es aquella en la que se calculan todos los umbrales que generan una matriz de confusión diferente. El cálculo de los diferentes umbrales de aceptación se puede hacer a partir de los porcentajes de probabilidad asignados por el modelo.
+La aplicación de un modelo predictivo sobre un conjunto de datos determina la probabilidad que tienen los diferentes registros de pertenecer a cada clase. El modelo asigna de forma automática a cada registro la clase que haya obtenido una probabilidad más alta. La representación de la curva ROC se basa en la variación del umbral de aceptación que establece el porcentaje de probabilidad que se necesita para considerar positivo un registro. El umbral de aceptación marca una frontera de decisión que separa la predicción de los registros a partir del porcentaje asignado por el modelo. La predicción que se realiza depende del umbral de aceptación, un umbral del 0\% establece que todos los registros son positivos, un umbral del 100\% clasifica todos los registros negativos. La curva ROC se calcula en base a los indicadores de sensibilidad y especificidad que se obtienen para distintos umbrales de aceptación. La cantidad de umbrales de aceptación que se calculan influye en la representación de la curva, la situación ideal es aquella en la que se calculan todos los umbrales que generan una matriz de confusión diferente. El cálculo de los diferentes umbrales de aceptación se puede hacer a partir de los porcentajes de probabilidad asignados por el modelo.
+
+\bigbreak
+
+El Algoritmo \ref{al:roc} presenta la implementación propuesta para obtener los puntos que definen la curva ROC. El algoritmo recibe como entrada el conjunto ordenado de instancias de test  $L_{sorted}$. El orden se establece a partir de la probabilidad de pertenecer a la clase positiva que asigna el modelo a cada instancia, el objetivo de la ordenación es reducir la complejidad del algoritmo. La complejidad es $\mathcal{O}(n)$ sin incluir la ordenación previa del conjunto de datos, si se incluye el coste de la ordenación la complejidad aumenta hasta $\mathcal{O}(n \log{n})$. El número de instancias de cada clase es independiente a la variación del umbral de aceptación, para obtener los puntos de la gráfica se calcula para cada umbral los indicadores de ciertos positivos y falsos positivos. En cada iteración (bucle, línea 6) se establece que la predicción sobre la instancia $i$ es positiva, en el caso de que la instancia sea positiva se incrementa el contador de ciertos positivos en una unidad, en el caso de que sea negativa se incrementa el contador de falsos positivos en una unidad (estructura condicional, línea 10). Los diferentes puntos se añaden al conjunto de salida $R$ una vez se han actualizado los contadores de verdaderos positivos y falsos positivos para todas las instancias con el mismo umbral de aceptación (estructura condicional, línea 7). 
+
+\bigbreak
+
+\begin{algorithm}
+    \caption{Curva ROC}
+        \begin{algorithmic}[1]
+            \State $L_{sorted}$
+            \State $FP = 0$
+            \State $TP = 0$
+            \State $R = [\phantom{.}]$
+            \State $f_{prev} = - \infty$
+
+            \For{$i = 1$ to $|L_{sorted}|$}
+                \If {$f_{prev} \neq f(i)$}
+                    \State  push $(\frac{FP}{N}, \frac{TP}{P})$ onto R
+                \EndIf
+
+                \If {$L_{sorted}$[i] is Positive}
+                    \State  $TP = TP + 1$
+                \ElsIf {$L_{sorted}$[i] is Negative}
+                    \State  $FP = FP + 1$
+                \EndIf
+            \EndFor
+            \State  push $(\frac{FP}{N}, \frac{TP}{P})$ onto R
+    \end{algorithmic}
+    \label{al:roc}
+\end{algorithm}
+
+\bigbreak
+
+En la Tabla \ref{tab:4} se presenta un conjunto de valores de ejemplo, la clase y la predicción ofrecen un indicador del porcentaje de probabilidad que tiene cada instancia de pertenecer a la clase positiva. Las instancias 1, 2 y 4 son positivas, las instancias 3, 5 y 6 son negativas, en ambos casos el numero total de instancias positivas y negativas es igual a tres unidades. En la primera iteración la predicción actual $f(1)$ es de $0.8$ unidades, la predicción anterior $f_{prev}$ es $- \infty$ al ser diferentes se incluye el punto $(0, 0)$. La clase en la primera iteración es positiva, esto aumenta el valor del contador de verdaderos positivos en una unidad. En la segunda iteración el valor de la predicción actual $f(2)$ y de la predicción anterior $f_{prev}$ es igual a $0.8$ unidades, esto implica que no se incluye ningún punto en el conjunto R. En la segunda iteración la clase es positiva, esto supone el aumento del contador de verdaderos positivos en una unidad. La predicción en la tercera iteración es de $0.5$ unidades, en esta iteración se incluye el punto $(0, \frac{2}{3})$ que corresponde al umbral de aceptación $0.8$, también al ser negativa la clase se incrementa el contador de falsos negativos en una unidad. En la cuarta iteración se incluye el punto $(\frac{1}{3}, \frac{2}{3})$ correspondiente al umbral de aceptación $0.5$, además se incrementa el contador de verdaderos positivos en una unidad. En la quinta iteración se añade el punto $(\frac{1}{3}, 1)$, también se aumenta el contador de falsos positivos en una unidad. En la sexta iteración se aumenta el contador de falsos positivos en una unidad y una vez terminado el bucle se añade el punto $(1, 1)$ que corresponde al umbral de aceptación $0.1$.
+
+\bigbreak
+
+\begin{table}[htp]
+    \small
+    \centering
+    \begin{tabular}{c c c}
+        ID  & \hspace{10pt}Clase  & \hspace{10pt}Predicción   \\\hline
+        $1$ & \hspace{10pt}$1$    & \hspace{10pt}$0.8$        \\\hline
+        $2$ & \hspace{10pt}$1$    & \hspace{10pt}$0.8$        \\\hline
+        $3$ & \hspace{10pt}$0$    & \hspace{10pt}$0.5$        \\\hline
+        $4$ & \hspace{10pt}$1$    & \hspace{10pt}$0.2$        \\\hline
+        $5$ & \hspace{10pt}$0$    & \hspace{10pt}$0.1$        \\\hline
+        $6$ & \hspace{10pt}$0$    & \hspace{10pt}$0.1$        \\\hline
+    \end{tabular}
+    \caption{Ejemplo propuesto para el calculo de los puntos que representan la curva ROC.}
+    \label{tab:4}
+\end{table}
 
 \bigbreak
 
@@ -343,7 +396,7 @@ La curva ROC representa en el eje de ordenadas la tasa de acierto en la predicci
 
 
 
-La interpretación gráfica que se hace de la curva ROC no permite comparar diferentes curvas, especialmente en determinados casos en los que el gráfico presenta intervalos con una curva por encima de otra e intervalos en los que esto sucede al revés. La solución que se propone es utilizar el área bajo la curva ROC como un indicador cuantitativo del acierto del modelo. La definición de la curva ROC implica un aumento del área bajo la curva cuanto mayor sea la tasa de acierto sobre la tasa de error, el área bajo la curva ROC para un modelo con una clasificación perfecta es de una unidad, mientras que el área bajo la curva ROC para un modelo que clasifica de forma incorrecta todos los registros es de cero.
+La interpretación gráfica que se hace de la curva ROC no permite comparar diferentes curvas, especialmente en determinados casos en los que el gráfico presenta intervalos en los que una curva está por encima de otra e intervalos en los que esto sucede al revés. La solución que se propone es utilizar el área bajo la curva ROC como un indicador cuantitativo del acierto del modelo. La definición de la curva ROC implica un aumento del área bajo la curva cuanto mayor sea la tasa de acierto sobre la tasa de error, el área bajo la curva ROC para un modelo con una clasificación perfecta es de una unidad, mientras que el área bajo la curva ROC para un modelo que clasifica de forma incorrecta todos los registros es de cero.
 
 \bigbreak
 

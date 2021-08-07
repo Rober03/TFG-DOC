@@ -18,8 +18,20 @@
 \usepackage{flafter} 
 \usepackage{subfig} 
 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% ALGORITMOS EN ESPAÑOL
+\makeatletter
+    \renewcommand{\ALG@name}{Algoritmo}
+    \renewcommand{\listalgorithmname}{
+    Índice de \ALG@name s}
+\makeatother
+
+% AUMENTAR PADDING A FILAS
 \setlength\extrarowheight{4pt}
 
+% ESTABLECER DIRECTORIO DE FIGURAS Y BIBLIOGRAFIA
 \graphicspath{ {./Figuras} } 
 \addbibresource{Otros/bibliografia.bib}
 
@@ -84,6 +96,9 @@ Universidad Pablo de Olavide
     \thispagestyle{empty}
     \listoftables
     \clearpage
+    \thispagestyle{empty}
+    \listofalgorithms
+    \clearpage
 
     % OTRAS SECCIONES
     \include{Secciones/codigos.tex}
@@ -105,7 +120,6 @@ Universidad Pablo de Olavide
     \printbibliography[heading=none]
 
     % ANEXOS
-
     \include{Secciones/anexo1.tex}
 
 \end{document}

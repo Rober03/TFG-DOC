@@ -59,7 +59,7 @@ El escenario de pruebas que se ha definido no se realiza ningún tipo de preproc
     \label{tab:11}
 \end{table}
 
-\clearpage
+\bigbreak
 
 \begin{figure}[htp]
     \centering
@@ -73,7 +73,18 @@ El escenario de pruebas que se ha definido no se realiza ningún tipo de preproc
 
 \bigbreak
 
-La clase Astrocytoma presenta una sensibilidad baja, tan solo el 50\% de instancias de esta clase se predicen de forma correcta, sin embargo, la probabilidad sube al 80\% cuando se trata de la tasa de acierto en la predicción de esta clase. Los índices de verosimilitud verifican la tendencia, por un lado se presenta un aumento de mas del 45\% en la probabilidad que que tiene un registro que se predice de clase Astrocytoma de ser de esta clase, por otro lado, el  índice de verosimilitud negativa indica una disminución de entrono al 15\% en la probabilidad de que un registro que se predice de otra clase sea de clase Astrocytoma. El índice de correlación de Matthews es de $0.561$ esto indica una notable correlación entre clase y predicción. El método OP penaliza latas
+El fichero de datos brain\_gse15824.csv presenta una clase con cuatro etiquetas, las etiquetas son Astrocytoma, Glioblastoma, Oligodendrioglioma y Glioblastoma-cell-line. En la siguietne lista se ofrece una interpretación de los valores obtenidos al aplicar los métodos de evaluación vistos en secciones anteriores.
+
+\bigbreak
+
+\begin{itemize}
+    \item La exactitud es de 0.757 unidades, es decir, hay un $75.7$\% de probablidad de acierto en la predicción.
+    \item El área bajo la curva-A es de $0.764$ un valor notablemente alto. La diferencia entre el área bajo la curva-A y la exactitud es de $0.007$ unidades.
+    \item La sensibilidad para las clases Glioblastoma y Glioblastoma-cell-line es perfecta, todas las instancias de estas clases se predicen de forma correcta. La clase Astrocytoma tiene una sensibilidad de $0.5$ unidades, tan solo la mitad de las instancias de está clase se predicen de forma correcta. La etiqueta Oligodendrioglioma presenta una sensibilidad de $0.286$ unidades, el $28.6$\% de las instancias de esta clase se predicen correctamente.
+    \item La clase Glioblastoma-cell-line presenta una especificidad perfecta, ninguna instancia de otra clase se predice de clase Glioblastoma-cell-line. El resto de clases presentan tasas de especificidad notablemente buenas, en el caso de las clases Astrocytoma y Oligodendrioglioma presentan un valor muy similar de aproximadamente $0.96$ unidades. El indicador más bajo de especificidad lo presenta la clase Glioblastoma con un valor de $0.72$ que indica una tasa alta de probabilidad de acierto al determinar que una instancia no pertenece a esta clase.
+    \item El indicador de precisión obtenido para la clase Glioblastoma-cell-line es de una unidad, todas las predicciónes que establecen que una instancia pertenece a esta clase son correctas. La clase Astrocytoma tiene un valor de precision de $0.8$ unidades, el 80\% de prediciones que se realizan sobre esta clase son correctas. Las clases Glioblastoma y Oligodendrioglioma presentan tasas de precisión muy similares ambas se encuentran situan entorno a $0.65$ unidades, en general son tasas aceptables.
+    \item Las etiquetas Glioblastoma y Glioblastoma-cell-line obtienen un valor de precisión inversa de una unidad, todas las instancias que no se predicen de estas clases, no son en efecto instancias de estas clases. Las etiquetas d
+\end{itemize}
 
 \clearpage
 
