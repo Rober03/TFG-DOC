@@ -73,18 +73,31 @@ El escenario de pruebas que se ha definido no se realiza ningún tipo de preproc
 
 \bigbreak
 
-El fichero de datos brain\_gse15824.csv presenta una clase con cuatro etiquetas, las etiquetas son Astrocytoma, Glioblastoma, Oligodendrioglioma y Glioblastoma-cell-line. En la siguietne lista se ofrece una interpretación de los valores obtenidos al aplicar los métodos de evaluación vistos en secciones anteriores.
+El fichero de datos brain\_gse15824.csv presenta cuatro clases, los nombres de las clases son Astrocytoma, Glioblastoma, Oligodendrioglioma y Glioblastoma-cell-line. En esta sección se ofrece un análisis e interpretación de los resultados obtenidos al aplicar los métodos de evaluación vistos en secciones anteriores. El análisis e interpretación se realiza de forma independiente para las diferentes clases.
 
 \bigbreak
 
-\begin{itemize}
-    \item La exactitud es de 0.757 unidades, es decir, hay un $75.7$\% de probablidad de acierto en la predicción.
-    \item El área bajo la curva-A es de $0.764$ un valor notablemente alto. La diferencia entre el área bajo la curva-A y la exactitud es de $0.007$ unidades.
-    \item La sensibilidad para las clases Glioblastoma y Glioblastoma-cell-line es perfecta, todas las instancias de estas clases se predicen de forma correcta. La clase Astrocytoma tiene una sensibilidad de $0.5$ unidades, tan solo la mitad de las instancias de está clase se predicen de forma correcta. La etiqueta Oligodendrioglioma presenta una sensibilidad de $0.286$ unidades, el $28.6$\% de las instancias de esta clase se predicen correctamente.
-    \item La clase Glioblastoma-cell-line presenta una especificidad perfecta, ninguna instancia de otra clase se predice de clase Glioblastoma-cell-line. El resto de clases presentan tasas de especificidad notablemente buenas, en el caso de las clases Astrocytoma y Oligodendrioglioma presentan un valor muy similar de aproximadamente $0.96$ unidades. El indicador más bajo de especificidad lo presenta la clase Glioblastoma con un valor de $0.72$ que indica una tasa alta de probabilidad de acierto al determinar que una instancia no pertenece a esta clase.
-    \item El indicador de precisión obtenido para la clase Glioblastoma-cell-line es de una unidad, todas las predicciónes que establecen que una instancia pertenece a esta clase son correctas. La clase Astrocytoma tiene un valor de precision de $0.8$ unidades, el 80\% de prediciones que se realizan sobre esta clase son correctas. Las clases Glioblastoma y Oligodendrioglioma presentan tasas de precisión muy similares ambas se encuentran situan entorno a $0.65$ unidades, en general son tasas aceptables.
-    \item Las etiquetas Glioblastoma y Glioblastoma-cell-line obtienen un valor de precisión inversa de una unidad, todas las instancias que no se predicen de estas clases, no son en efecto instancias de estas clases. Las etiquetas d
-\end{itemize}
+La exactitud es de $0.757$ unidades, es decir, hay un $75.7$\% de probablidad de acierto en la predicción que realiza el modelo. El área bajo la curva-A es de $0.764$ unidades, un valor notablemente alto. La diferencia entre el área bajo la curva-A y la exactitud es de $0.007$ unidades. 
+
+\bigbreak
+
+La clase Astrocytoma presenta un indicador de sensibilidad bajo, un resultado de $0.5$ indica que tan solo la mitad de los registros de está clase se prediccen de forma correcta. La especificidad es de $0.966$ unidades, esto implica que para intancias en las que la clase es diferente a Astrocytoma, la predicción se hace correctamente el 96.6\% de las veces. El indicador de precisión es de $0.8$ unidades, las instnacias que se predicen de clase Astrocytoma tienen una tasa de acierto del $80$\%. La precisión inversa indica que la predicción es correcta para el 80\% de las instancias que se predicen de una clase diferente a Astrocytoma. El resultado para la precisión inversa es de $0.85$ unidades, la tasa de aciertos en la prediccón de clases diferentes a Astrocytoma es notablemente buena. La razón de verosimilitud positiva presenta un fuerte aumento de la probabilidad de acierto que tiene un registro que se predice de clase Astrocytoma, en concreto supone más de un 45\% de mejora (Tabla \ref{tab:2}). La razón de verosimilitud negativa obtiene un resultado de $0.518$ puntos, esto implica una leve disminución en la probabilidad de que un registro sea de clase Astrocytoma cuando se precdice de una clase diferente, la disminución que presenta es de entorno al 15\% (Tabla \ref{tab:2}). El DOR ofrece un indicador conjunto de las razones de verosimilitud, en general indica una buena capacidad discriminatoria para la clase Astrocytoma. El indice de Youden tiene un valor de $0.46$, un valor poximo a $0.5$ indica una capacidad discriminatoria aceptable para la clase Astrocytoma. El resultado para el coeficiente de correlación de Matthews es de $0.561$ unidades, un valor que indica una fuerte correlación entre clase y predicción (Tabla \ref{tab:3}). El poder disciminante de $0.798$ implica una capacidad discriminatoria postiva para la clase Astrocytoma. El valor de la medida-F implica una tasa aceptable de acierto para instancias en las que la clase o la predicción es Astrocytoma, en este caso la baja sensibilidad obtenida penaliza el resultado obtenido. El markedness es un indicador que agurpa los métodos que miden la exactitud en la predicción, un resultado de $0.675$ implica una notable tasa de acierto. La media geometica y la exactitud balanceada ofrecen un indicador de la tasa de acietos conjunta para instancias de clase Astrocytoma e instancias que no son de clase Astrocytoma, en ambos casos el indicador es notablemente alto. El resultado para la precisión de optimización es de $0.547$ unidades, un valor bajo que se ha visto afectado por la gran diferencia que existe entre sensibilidad y especificidad. El resultado que se obtiene al aplicar Jaccard es de $0.444$ unidades, esto indica un grado de similitud bajo entre clase y predicción.
+
+\bigbreak
+
+La sensibilidad para la clase Glioblastoma es de una unidad, esto implica que todas las instancias de esta clase se clasifican de forma correcta. El indicador de especificidad indica una notable tasa de acierto a la hora de determinar que instancias no pertenecen a la clase Glioblastoma. La precisión de $0.63$ unidades implica una buena tasa de acierto sobre las intancias que se predicen de clase Glioblastoma. La precisión inversa obtiene un resultado de una unidad, la predicción es correcta para todas las instancias que se predicen de una clase diferente a Glioblastoma. La razón de verosimilitud positiva indica un leve aumento (Tabla \ref{tab:2}) en la probabilidad de que una instancia pertenezca a la clase Glioblastoma cuando se predice de esta clase. El indice de Youden indica una capacidad discriminatoria notable para la clase Glioblastoma. El resultado obtenido por el coeficiente de correlación de Matthews es de $0.674$, este valor implica una alta correlación (Tabla \ref{tab:3}) entre la predicción y la clase Glioblastoma. La medida-F indica una tasa notable de acierto en la predicción de la clase. La media geometica y la exactitud balanceada ofrecen indicadores que reflejan una tasa de aciertos notable, ambos métodos agrupan sensibilidad y especificidad. La precisión de optimización indica una buena tasa de acierto para la clase Glioblastoma. El método de Jaccard indica un grado de similitud medio entre la predicción y la clase Glioblastoma.
+
+\bigbreak
+
+d
+
+\bigbreak
+
+La clase Glioblastoma-cell-line muuestra un comportamiento ideal, el modelo es capaz de discriminar entre esta clase y el resto de forma perfecta.
+
+\bigbreak
+
+Los resultados obtenidos para el fichero brain\_gse15824.csv han sido positivos, en general las tasas de acierto han sido notables. Los métodos que se aplicado ayudan a reconocer algunos puntos de mejora, en este caso, la clase Oligodendrioglioma es la que obtiene peores indicadores, el modelo puede mejorarse ajustando la predicción sobre esta clase.
 
 \clearpage
 
