@@ -421,20 +421,19 @@ La curva ROC no está definida para su aplicación en modelos de clasificación 
 
 \subsubsection{Curva PR}
 
-La curva PR es un método gráfico que mide el rendimiento de un modelo predictivo a partir de los indicadores de precisión y sensibilidad, esto implica que el método es dependiente del balance entre el número de registros de cada clase. La curva PR fue ideada para su aplicación exclusivamente a modelos de clasificación binaria.
+La curva PR es un método gráfico que mide el rendimiento de un modelo predictivo a partir de los indicadores de precisión y sensibilidad, esto implica que el método es sensible al balance entre el número de registros de cada clase. La curva PR fue ideada para su aplicación exclusivamente a modelos de clasificación binaria.
 
 \bigbreak
 
-Para representar las medidas de precisión y sensibilidad se emplea el mismo método utilizado para la curva ROC. La idea consiste en establecer una serie de umbrales de aceptación, los diferentes umbrales definen el porcentaje de probabilidad mínimo para considerar positivo un registro. El objetivo es representar el comportamiento que tiene el modelo ante la variación del umbral de aceptación. La precisión y la sensibilidad son dos métodos que presentan una proporcionalidad inversa, esto implica que al aumentar una disminuye la otra y viceversa. Al aumentar la sensibilidad, es decir, al reducir el número de falsos negativos se establece un umbral de aceptación según el cual todos los registros son positivos, esto provoca que el número de falsos positivos aumente y por tanto la precisión disminuya.
+Para representar los indicadores de precisión y sensibilidad se emplea el mismo método que se aplica en la curva ROC. La idea consiste en establecer una serie de umbrales de aceptación, los distintos umbrales definen el porcentaje de probabilidad mínimo que se necesita para considerar positivo un registro, un umbral del 0\% establece que todos los registros son positivos, un umbral del 100\% clasifica todos los registros negativos. El objetivo es representar el comportamiento que tiene el modelo ante la variación del umbral de aceptación. La precisión y la sensibilidad son dos métodos que presentan una proporcionalidad inversa, esto implica que al aumentar el valor de uno disminuye el del otro y viceversa.  
 
 \bigbreak
 
-
-La curva PR representa en el eje de ordenadas la precisión y en el eje de abscisas la sensibilidad. La interpretación de la gráfica es algo diferente a la que ofrece la curva ROC. La curva ROC presenta una curva que empieza en el punto $(0, 0)$ y termina en el punto $(1, 1)$, cuanto más se aproxime la curva al punto $(0, 1)$ mejor será el modelo. La curva PR por el contrario ofrece una curva que comienza en el punto $(0, 1)$ y termina en el punto $(1, 0)$. El comportamiento ideal es aquel en el que la curva pase por el punto $(1, 1)$, en este punto la sensibilidad y la precisión alcanzan el valor de una unidad.
+La curva PR representa en el eje de ordenadas la precisión y en el eje de abscisas la sensibilidad. La interpretación de la gráfica es algo diferente a la que ofrece la curva ROC. La curva ROC presenta una curva que empieza en el punto $(0, 0)$ y termina en el punto $(1, 1)$, cuanto más se aproxime la curva al punto $(0, 1)$ mejor será el modelo. La curva PR por el contrario ofrece una curva que comienza en el punto $(0, 1)$ y termina en el punto $(1, 0)$. El comportamiento ideal es aquel en el que la curva pasa por el punto $(1, 1)$, en este punto la sensibilidad y la precisión valen una unidad.
 
 \bigbreak
 
-La curva PR presenta la necesidad de obtener una forma cuantitativa de medir como de bueno es el resultado que ofrece la gráfica. El indicador más utilizado para este propósito es el área bajo la curva PR, el área bajo la curva PR establece mejores indicadores cuanto más se aproxime la curva al punto de clasificación perfecta $(0, 1)$. Es una medida ideal para comparar diferentes modelos y establecer que modelo tiene un mejor comportamiento a partir de la sensibilidad y la precisión. El cálculo del área bajo la curva se puede hacer a través de varios métodos, uno de los más populares consiste en la aplicación del método del trapecio para resolver la integral definida entre cero y uno, la ecuación \ref{eq:trapecio} define el cálculo del método.
+La curva PR presenta la necesidad de obtener una forma cuantitativa de medir como de bueno es el resultado que ofrece la gráfica. El indicador más utilizado para este propósito es el área bajo la curva PR, el área bajo la curva PR establece mejores indicadores cuanto más se aproxime la curva al punto de clasificación perfecta $(0, 1)$. El área bajo la curva PR es una método ideal para comparar diferentes modelos y establecer que modelo tiene un mejor comportamiento a partir de los indicadores de sensibilidad y precisión. El área bajo la curva se puede calcular aplicando el método del trapecio para resolver la integral definida entre cero y uno, la ecuación \ref{eq:trapecio} muestra la formulación del método.
 
 \bigbreak
 
@@ -445,10 +444,10 @@ La curva PR presenta la necesidad de obtener una forma cuantitativa de medir com
     \label{fig:6}
 \end{figure}
 
-La definición de la curva PR establece que el método solo es aplicable a modelos de clasificación binaria, sin embargo, es posible su aplicación a modelos con más de dos clases. La representación que se hace para modelos de clasificación multi etiqueta consiste la generación de una gráfica en la que se incluya una curva por cada una de las clases. En cada curva se considera positiva una de las clases y negativa el resto, el aumento del número de curvas en la gráfica implica una mayor dificultad a la hora de interpretar los resultados.
+La definición de la curva PR establece que el método solo es aplicable a modelos de clasificación binaria, sin embargo, se puede aplicar a modelos con más de dos clases. La representación que se hace para modelos de clasificación multi etiqueta consiste en la generación de una gráfica en la que se incluye una curva por cada una de las clases. En cada curva se considera positiva una de las clases y negativa el resto, el aumento del número de curvas en la gráfica implica una mayor dificultad a la hora de interpretar los resultados.
 
 \bigbreak
 
-La Figura \ref{fig:6} representa la curva PR obtenida para un modelo de clasificación binaria. La disposición gráfica de ambas curvas indica un buen comportamiento del modelo cuento a tasas de sensibilidad y precisión. El área bajo la curva de $0.950$ para la clase ATL y de $0.897$ para la clase normal indican en general unas buenas tasas de precisión sobre sensibilidad.
+La Figura \ref{fig:6} representa la curva PR obtenida para un modelo de clasificación binaria. La disposición gráfica de ambas curvas indica un buen comportamiento del modelo en cuanto a la tasa de aciertos que se obtiene a partir de la sensibilidad y la precisión. El resultado del área bajo la curva PR confirma que el modelo presenta una excelente capacidad predictiva tanto para la clase Atl como para la clase Normal.
 
 \clearpage

@@ -70,7 +70,52 @@ En la Figura \ref{fig:2} se muestra una comparativa entre las curvas A y ROC obt
 
 \bigbreak
 
-
 Hay situaciones en las que no es posible establecer una comparativa exclusivamente gráfica entre varias representaciones de la curva A. La definición que se hace de la curva implica que el área bajo la curva aumenta a medida que la curva se aproxima al punto (0, 1), es decir, cuanto mayor es el valor del área bajo la curva mejores tasas de acierto obtiene el modelo. El área bajo la curva, también se puede considerar como un indicador de la calidad general del modelo. El resultado que ofrece, se encuentra en el intervalo de cero a uno, los valores cercanos a uno indican que el modelo tiene buenas tasas de acierto en la predicción, mientras que los valores próximos a cero indican la presencia de un modelo con una muy baja capacidad predictiva. Por último, cabe destacar el grado de similitud entre la exactitud y el área bajo la curva A, esta relección será objeto de estudio en la parte experimental.
+
+\bigbreak
+
+El Algoritmo \ref{al:a_curve} presenta una implementación para obtener los puntos que definen la curva-A, la función recibe como entrada dos matrices de datos. En la variable L se define una matriz de dimensión $NxM$ donde $N$ es el número de registros y $M$ es el número de etiquetas, en cada celda de la matriz se indica con los valores cero o uno si el registro $i$ tiene asignada la etiqueta $j$. En la variable P se define una matriz de dimensión $NxM$ donde $N$ es el número de registros y $M$ es el número de etiquetas, en cada celda se almacena la probabilidad que asigna el modelo al registro $i$ de pertenecer a la clase $j$. La complejidad del algoritmo es $\mathcal{O}(n \cdot m + n \log(n))$, sin embargo, el número de etiquetas se puede considerar como un valor constante dentro del problema al aplicar esta simplificación la complejidad pasa a ser igual al coste de ordenación $\mathcal{O}(n \log(n))$. El algoritmo recorre los distintos registros (bucle, línea 4), por cada registro aplica la formula \ref{eq:A}. Para la aplicación de la formula se calcula en primer lugar el valor del sumatorio, una vez calculado se divide el resultado entre dos y se le resta a la unidad. Por ultimo, se ordena el conjunto de datos R siguiendo un orden ascendente (función, línea 11).
+
+\bigbreak
+
+
+\bigbreak
+
+\begin{algorithm}
+    \caption{Curva-A}
+        \begin{algorithmic}[1]
+            \State $L$
+            \State $P$
+            \State $R = [\phantom{.}]$
+
+            \For{$i = 1$ to $|L|$}
+                \State $R[i] = 0$
+                \For{$j = 1$ to $|L[i]|$}
+                    \State $R[i]$ += pow $(L[i][j]-P[i][j], 2)$
+                \EndFor
+                \State $R[i] = 1 - (R[i]/2)$
+            \EndFor
+            \State  sort $(R, asc)$
+    \end{algorithmic}
+    \label{al:a_curve}
+\end{algorithm}
+
+\bigbreak
+
+\begin{table}[htp]
+    \small
+    \centering
+    \begin{tabular}{c c c c c c c c c}
+        ID  & \hspace{10pt}$L_{0}$  & \hspace{10pt}$L_{1}$  & \hspace{10pt}$L_{2}$  & \hspace{10pt}$P_{0}$ & \hspace{10pt}$P_{1}$ & \hspace{10pt}$P_{2}$  & \hspace{10pt}$E_{R}$ & \hspace{10pt}$1-E_{R}/2$ \\\hline
+        $1$ & \hspace{10pt}$1$ & \hspace{10pt}$0$ & \hspace{10pt}$0$ & \hspace{10pt}$0.5$ & \hspace{10pt}$0.2$ & \hspace{10pt}$0$ & \hspace{10pt}$0.29$ & \hspace{10pt}$0.855$           \\\hline
+        $2$ & \hspace{10pt}$0$      & \hspace{10pt}$1$ & \hspace{10pt}$0$   & \hspace{10pt}$0.1$    & \hspace{10pt}$0.8$ & \hspace{10pt}$0.1$ & \hspace{10pt}$0.06$ & \hspace{10pt}$0.97$     \\\hline
+        $3$ & \hspace{10pt}$1$      & \hspace{10pt}$0$ & \hspace{10pt}$0$   & \hspace{10pt}$1$    & \hspace{10pt}$0$ & \hspace{10pt}$0$ & \hspace{10pt}$0$  & \hspace{10pt}$1$   \\\hline
+        $4$ & \hspace{10pt}$0$      & \hspace{10pt}$0$  & \hspace{10pt}$1$  & \hspace{10pt}$0$    & \hspace{10pt}$0.3$ & \hspace{10pt}$0.7$ & \hspace{10pt}$0.18$  & \hspace{10pt}$0.91$    \\\hline
+        $5$ & \hspace{10pt}$0$      & \hspace{10pt}$1$ & \hspace{10pt}$0$   & \hspace{10pt}$1$    & \hspace{10pt}$0$ & \hspace{10pt}$0$ & \hspace{10pt}$2$  & \hspace{10pt}$0$    \\\hline
+        $6$ & \hspace{10pt}$0$      & \hspace{10pt}$0$  & \hspace{10pt}$1$  & \hspace{10pt}$0$    & \hspace{10pt}$0$ & \hspace{10pt}$1$ & \hspace{10pt}$0$ & \hspace{10pt}$1$    \\\hline
+    \end{tabular}
+    \caption{Ejemplo propuesto para el calculo de los puntos que representan la curva-A.}
+    \label{tab:5}
+\end{table}
 
 \clearpage
